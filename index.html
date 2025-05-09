@@ -14,6 +14,26 @@
 		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=stadium" />
 </head>
 
+<!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<!-- Firebase Auth and Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
+
+<script>
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+		apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+		authDomain: "dagora.app",
+		projectId: "dagora-ed398",
+		storageBucket: "dagora-ed398.appspot.com",
+		messagingSenderId: "437561736837",
+	};
+
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+</script>
+
 <style>
 	.slider {
 		width: 360px;
@@ -228,7 +248,7 @@
 								you with critical thinking tools for constructive debates, democratic moderation and
 								purposeful communities.</p>
 							<div class="hero-cta" style="margin-left: 4vw;"><a class="button button-shadow"
-									href="#">Join waitlist</a><a class="button button-primary button-shadow" href="#"
+									href="#join">Join Us</a><a class="button button-primary button-shadow" href="#"
 									style="background-color: #3880ff;">Support Us</a></div>
 						</div>
 						<div class="hero-app">
@@ -957,30 +977,45 @@
 				</div>
 			</section>
 
-			<section class="newsletter section">
+			<section class="newsletter section" id="join">
 				<div class="container-sm">
 					<div class="newsletter-inner section-inner">
-						<div class="newsletter-header text-center">
+						<div class="newsletter-header text-center" id="email-signup">
 							<h2 class="section-title mt-0">
 								<span class="material-symbols-outlined" style="font-size: 35px;">
 									stadium
 								</span>&nbsp;Join Us
 							</h2>
 							<p class="section-paragraph" style="text-align: justify;">
-								Dagora is an invite-only platform designed to keep bots, AI, and bad-faith users out,
-								ensuring a community built on authentic, super high-quality content.<br>
-								Learn more about <a href=""><span style="font-weight: 800;">Accountability</span></a>
-								🐱‍🏍
+								Just like Wikipedia, Dagora is a platform aiming to drive <span
+									style="font-weight: 800;">unrestricted access to
+									information</span>.<br>
+								However, to maintain a community built on <span
+									style="font-weight: 800;">authenticity</span> and <span
+									style="font-weight: 800;">high-quality contributions</span>, posting,
+								commenting, and creating arguments are <span
+									style="font-weight: 800;">invite-only</span> for now.<br>
+								This approach helps keep bots, AI, and bad-faith users out while fostering meaningful
+								engagement among <span style="font-weight: 800;">trusted
+									members</span>.<br>
+								See details <a href=""><span style="font-weight: 800;">here</span></a>
 							</p>
 						</div>
 						<div class="footer-form newsletter-form field field-grouped">
-							<div class="control control-expanded">
-								<input class="input" type="email" name="email" placeholder="name@email.com">
-							</div>
-							<div class="control">
-								<a class="button button-primary button-block button-shadow" href="#"
-									style="background-color: #3880ff;">SIGN UP</a>
-							</div>
+							<form id="signup-form" class="footer-form newsletter-form field field-grouped">
+								<div class="control control-expanded">
+									<input class="input" id="email" type="email" name="email"
+										placeholder="name@email.com" required>
+								</div>
+								<div class="control">
+									<button class="button button-primary button-block button-shadow"
+										style="background-color: #3880ff;" type="submit" id="submit-btn">SIGN
+										UP</button>
+								</div>
+							</form>
+						</div>
+						<div style="text-align: center; margin-top: 8px;">
+							<p id="form-message"></p>
 						</div>
 					</div>
 				</div>
@@ -992,8 +1027,7 @@
 				<div class="site-footer-inner has-top-divider">
 					<div class="brand footer-brand">
 						<a href="#">
-							<img src="./assets/logo.png" alt="Dagora Logo"
-								style="width: 186px; border-radius: 24px;">
+							<img src="./assets/logo.png" alt="Dagora Logo" style="width: 186px; border-radius: 24px;">
 						</a>
 					</div>
 					<ul class="footer-links list-reset">
@@ -1011,7 +1045,7 @@
 						</li>
 					</ul>
 					<ul class="footer-social-links list-reset">
-						
+
 					</ul>
 					<div class="footer-copyright">&copy; 2025 Dagora, all rights reserved</div>
 				</div>
@@ -1021,5 +1055,56 @@
 
 	<script src="dist/js/main.min.js"></script>
 </body>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// Sign in anonymously
+		firebase.auth().signInAnonymously().catch(error => {
+			console.error('Authentication error:', error);
+		});
+
+		const form = document.getElementById('signup-form');
+		const message = document.getElementById('form-message');
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+
+			const email = document.getElementById('email').value;
+			const submitBtn = document.getElementById('submit-btn');
+
+			// Disable the button and show loading state
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Subscribing...';
+			message.textContent = '';
+
+			try {
+				// Call the Cloud Function
+				const addEmailSubscriber = firebase.functions().httpsCallable('addEmailSubscriber');
+				const result = await addEmailSubscriber({
+					email,
+					source: 'github_landing_page'
+				});
+
+				// Show success message
+				message.textContent = result.data.message;
+				message.style.color = 'green';
+
+				// Reset form on success
+				if (result.data.success) {
+					form.reset();
+				}
+			} catch (error) {
+				// Show error message
+				message.textContent = error.message || 'Something went wrong. Please try again.';
+				message.style.color = 'red';
+				console.error('Submission error:', error);
+			} finally {
+				// Re-enable the button
+				submitBtn.disabled = false;
+				submitBtn.textContent = 'SIGN Up';
+			}
+		});
+	});
+</script>
 
 </html>
