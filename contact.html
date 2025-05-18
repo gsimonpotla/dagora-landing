@@ -85,6 +85,25 @@
 	</style>
 </head>
 
+<!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<!-- Firebase Auth and Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
+
+<script>
+	const firebaseConfig = {
+		apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+		authDomain: "dagora.app",
+		projectId: "dagora-ed398",
+		storageBucket: "dagora-ed398.appspot.com",
+		messagingSenderId: "437561736837",
+	};
+
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+</script>
+
 <body class="is-boxed has-animations">
 	<div class="body-wrap boxed-container">
 		<header class="site-header">
@@ -157,4 +176,64 @@
 	</div>
 	<script src="dist/js/main.min.js"></script>
 </body>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		// Sign in anonymously
+		firebase.auth().signInAnonymously().catch(error => {
+			console.error('Authentication error:', error);
+		});
+
+		const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
+		const message = document.createElement('div'); // Create a message element
+		message.id = 'form-message';
+		form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+
+			const name = document.getElementById('name').value;
+			const email = document.getElementById('email').value;
+			const subject = document.getElementById('subject').value;
+			const messageText = document.getElementById('message').value; // Renamed to avoid conflict
+			const submitBtn = form.querySelector('input[type="submit"]');
+
+			// Disable the button and show loading state
+			submitBtn.disabled = true;
+			submitBtn.value = 'Sending...';
+			message.textContent = '';
+
+			try {
+				// Call the Cloud Function
+				const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+				const result = await sendContactForm({
+					name,
+					email,
+					subject,
+					message: messageText, // Use renamed variable
+					source: 'contact_form_page'
+				});
+
+				// Show success message
+				message.textContent = result.data.message;
+				message.style.color = 'green';
+
+				// Reset form on success
+				if (result.data.success) {
+					form.reset();
+				}
+			} catch (error) {
+				// Show error message
+				message.textContent = error.message || 'Something went wrong. Please try again.';
+				message.style.color = 'red';
+				console.error('Submission error:', error);
+			} finally {
+				// Re-enable the button
+				submitBtn.disabled = false;
+				submitBtn.value = 'Send Message';
+			}
+		});
+	});
+</script>
+
 </html>
