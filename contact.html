@@ -2,87 +2,108 @@
 <html lang="en" class="no-js">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Contact Us - Dagora</title>
-	<link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Roboto:700" rel="stylesheet">
-	<link rel="stylesheet" href="dist/css/style.css">
-	<link rel="icon" type="image/png" href="assets/favicon.png" />
-	<style>
-		body {
-			background-color: #1D2026; /* Matching the landing page's dark theme */
-			color: #FFF; /* Default text color */
-		}
-		.contact-form-container {
-			max-width: 600px;
-			margin: 50px auto;
-			padding: 30px;
-			background-color: #252830; /* Slightly lighter than body for contrast */
-			border-radius: 8px;
-			box-shadow: 0 0 20px rgba(0,0,0,0.5);
-		}
-		.contact-form-container h1 {
-			text-align: center;
-			color: #FFF; /* White title */
-			margin-bottom: 30px;
-		}
-		.form-group {
-			margin-bottom: 20px;
-		}
-		.form-group label {
-			display: block;
-			margin-bottom: 8px;
-			color: #C0C0C0; /* Light grey for labels */
-			font-weight: 500;
-		}
-		.form-group input[type="text"],
-		.form-group input[type="email"],
-		.form-group textarea {
-			width: 100%;
-			padding: 12px;
-			border: 1px solid #3A3F4A; /* Darker border */
-			border-radius: 4px;
-			background-color: #1D2026; /* Input background */
-			color: #FFF; /* Input text color */
-			box-sizing: border-box; /* Ensures padding doesn't affect width */
-		}
-		.form-group textarea {
-			resize: vertical;
-			min-height: 120px;
-		}
-		.form-group input[type="submit"] {
-			background-color: #3880ff;
-			color: white;
-			padding: 12px 20px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 16px;
-			font-weight: 500;
-			transition: background-color 0.3s ease;
-		}
-		.form-group input[type="submit"]:hover {
-			background-color: #2767cf;
-		}
-		.footer-link {
-			text-align: center;
-			margin-top: 20px;
-		}
-		.footer-link a {
-			color: #3880ff;
-			text-decoration: none;
-		}
-		.footer-link a:hover {
-			text-decoration: underline;
-		}
-		.footer-mtl {
-			text-align: center;
-			color: #C0C0C0;
-			font-size: 0.9em;
-			padding-top: 10px;
-		}
-	</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact Us - Dagora</title>
+    <link href="https://fonts.googleapis.com/css?family=Heebo:400,500,700|Roboto:700" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <style>
+        body {
+            background-color: #1D2026;
+            /* Matching the landing page's dark theme */
+            color: #FFF;
+            /* Default text color */
+        }
+
+        .contact-form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #252830;
+            /* Slightly lighter than body for contrast */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-form-container h1 {
+            text-align: center;
+            color: #FFF;
+            /* White title */
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #C0C0C0;
+            /* Light grey for labels */
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #3A3F4A;
+            /* Darker border */
+            border-radius: 4px;
+            background-color: #1D2026;
+            /* Input background */
+            color: #FFF;
+            /* Input text color */
+            box-sizing: border-box;
+            /* Ensures padding doesn't affect width */
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #3880ff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #2767cf;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-link a {
+            color: #3880ff;
+            text-decoration: none;
+        }
+
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-mtl {
+            text-align: center;
+            color: #C0C0C0;
+            font-size: 0.9em;
+            padding-top: 10px;
+        }
+    </style>
 </head>
 
 <!-- Firebase App (the core Firebase SDK) -->
@@ -90,150 +111,162 @@
 <!-- Firebase Auth and Firestore -->
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script> <!-- Add App Check SDK -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT"></script>
 
 <script>
-	const firebaseConfig = {
-		apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
-		authDomain: "dagora.app",
-		projectId: "dagora-ed398",
-		storageBucket: "dagora-ed398.appspot.com",
-		messagingSenderId: "437561736837",
-	};
+    const firebaseConfig = {
+        apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+        authDomain: "dagora.app",
+        projectId: "dagora-ed398",
+        storageBucket: "dagora-ed398.appspot.com",
+        messagingSenderId: "437561736837",
+    };
 
-	// Initialize Firebase
-	firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Initialize App Check
+    const appCheck = firebase.appCheck();
+    appCheck.activate(
+        new firebase.appCheck.ReCaptchaV3Provider('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT'), // Replace with your site key
+        true);
+
 </script>
 
 <body class="is-boxed has-animations">
-	<div class="body-wrap boxed-container">
-		<header class="site-header">
-			<div class="container">
-				<div class="site-header-inner">
-					<div class="brand header-brand">
-						<h1 class="m-0">
-							<a href="index.html">
-								<img src="./assets/logo.png" alt="Dagora Logo"
-									style="width: 120px; border-radius: 12px;">
-							</a>
-						</h1>
-					</div>
-				</div>
-			</div>
-		</header>
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+                            <a href="index.html">
+                                <img src="./assets/logo.png" alt="Dagora Logo"
+                                    style="width: 120px; border-radius: 12px;">
+                            </a>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-		<main>
-			<section class="contact-form-section">
-				<div class="contact-form-container">
-					<h1>Contact Us</h1>
-					<form action="#" method="POST">
-						<div class="form-group">
-							<label for="name">Full Name</label>
-							<input type="text" id="name" name="name" required>
-						</div>
-						<div class="form-group">
-							<label for="email">Email Address</label>
-							<input type="email" id="email" name="email" required>
-						</div>
-						<div class="form-group">
-							<label for="subject">Subject</label>
-							<input type="text" id="subject" name="subject" required>
-						</div>
-						<div class="form-group">
-							<label for="message">Message</label>
-							<textarea id="message" name="message" required></textarea>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="Send Message">
-						</div>
-					</form>
-					<div class="footer-link">
-						<p><a href="index.html">&larr; Back to Home</a></p>
-					</div>
-				</div>
-			</section>
-		</main>
+        <main>
+            <section class="contact-form-section">
+                <div class="contact-form-container">
+                    <h1>Contact Us</h1>
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <div class="form-group" style="justify-self: center;">
+                            <input type="submit" value="Send Message">
+                        </div>
+                    </form>
+                    <div class="footer-link" style="text-align: left;font-size: 1.1em;">
+                        <p><a href="index.html">&larr; Back to Home</a></p>
+                    </div>
+                </div>
+            </section>
+        </main>
 
-		<footer class="site-footer">
-			<div class="container">
-				<div class="site-footer-inner has-top-divider">
-					<div class="brand footer-brand">
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer-inner has-top-divider">
+                    <div class="brand footer-brand">
                         <div class="footer-mtl">Made with ❤️ in MTL</div>
-					</div>
-					<ul class="footer-links list-reset">
-						<li>
-							<a href="index.html">Home</a>
-						</li>
-						<li>
-							<a href="about.html">About us</a>
-						</li>
-					</ul>
-					<ul class="footer-social-links list-reset">
-					</ul>
-					<div class="footer-copyright">&copy; 2025 Dagora, all rights reserved</div>
-				</div>
-			</div>
-		</footer>
-	</div>
-	<script src="dist/js/main.min.js"></script>
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="about.html">About us</a>
+                        </li>
+                    </ul>
+                    <ul class="footer-social-links list-reset">
+                    </ul>
+                    <div class="footer-copyright">&copy; 2025 Dagora, all rights reserved</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="dist/js/main.min.js"></script>
 </body>
 
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		// Sign in anonymously
-		firebase.auth().signInAnonymously().catch(error => {
-			console.error('Authentication error:', error);
-		});
+    document.addEventListener('DOMContentLoaded', function () {
+        // Sign in anonymously
+        firebase.auth().signInAnonymously().catch(error => {
+            console.error('Authentication error:', error);
+        });
 
-		const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
-		const message = document.createElement('div'); // Create a message element
-		message.id = 'form-message';
-		form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
+        const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
+        const message = document.createElement('div'); // Create a message element
+        message.id = 'form-message';
+        form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
 
-		form.addEventListener('submit', async (e) => {
-			e.preventDefault();
-
-			const name = document.getElementById('name').value;
-			const email = document.getElementById('email').value;
-			const subject = document.getElementById('subject').value;
-			const messageText = document.getElementById('message').value; // Renamed to avoid conflict
-			const submitBtn = form.querySelector('input[type="submit"]');
-
-			// Disable the button and show loading state
-			submitBtn.disabled = true;
-			submitBtn.value = 'Sending...';
-			message.textContent = '';
-
-			try {
-				// Call the Cloud Function
-				const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
-				const result = await sendContactForm({
-					name,
-					email,
-					subject,
-					message: messageText, // Use renamed variable
-					source: 'contact_form_page'
-				});
-
-				// Show success message
-				message.textContent = result.data.message;
-				message.style.color = 'green';
-
-				// Reset form on success
-				if (result.data.success) {
-					form.reset();
-				}
-			} catch (error) {
-				// Show error message
-				message.textContent = error.message || 'Something went wrong. Please try again.';
-				message.style.color = 'red';
-				console.error('Submission error:', error);
-			} finally {
-				// Re-enable the button
-				submitBtn.disabled = false;
-				submitBtn.value = 'Send Message';
-			}
-		});
-	});
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const subject = document.getElementById('subject').value;
+                    const messageText = document.getElementById('message').value; // Renamed to avoid conflict
+                    const submitBtn = form.querySelector('input[type="submit"]');
+            
+                    // Disable the button and show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.value = 'Sending...';
+                    message.textContent = '';
+            
+                    try {
+                        // Call the Cloud Function
+                        const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+                        const result = await sendContactForm({
+                            name,
+                            email,
+                            subject,
+                            message: messageText, // Use renamed variable
+                            source: 'contact_form_page'
+                        });
+            
+                        // Show success message
+                        message.textContent = result.data.message;
+                        message.style.color = 'green';
+            
+                        // Reset form on success
+                        if (result.data.success) {
+                            form.reset();
+                        }
+                    } catch (error) {
+                        // Show error message
+                        message.textContent = error.message || 'Something went wrong. Please try again.';
+                        message.style.color = 'red';
+                        console.error('Submission error:', error);
+                    } finally {
+                        // Re-enable the button
+                        submitBtn.disabled = false;
+                        submitBtn.value = 'Send Message';
+                    }
+                });
+            });
+        });
+    });
 </script>
 
 </html>
