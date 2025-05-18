@@ -115,17 +115,86 @@
 <script src="https://www.google.com/recaptcha/api.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
-        authDomain: "dagora.app",
-        projectId: "dagora-ed398",
-        storageBucket: "dagora-ed398.appspot.com",
-        messagingSenderId: "437561736837",
-    };
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+            authDomain: "dagora.app",
+            projectId: "dagora-ed398",
+            storageBucket: "dagora-ed398.appspot.com",
+            messagingSenderId: "437561736837",
+        };
+        firebase.initializeApp(firebaseConfig);
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+        // Initialize App Check
+        const appCheck = firebase.appCheck();
+        try {
+            // Replace 'YOUR_RECAPTCHA_V3_SITE_KEY' with your actual reCAPTCHA v3 site key
+            const provider = new firebase.appCheck.ReCaptchaV3Provider('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1');
+            appCheck.activate(provider, true); // Returns void, not a Promise
+            console.log('App Check activated. Token auto-refresh is enabled.');
+        } catch (e) {
+            console.error('Error during App Check activation:', e);
+        }
 
+        // Sign in anonymously
+        firebase.auth().signInAnonymously().catch(error => {
+            console.error('Authentication error:', error);
+        });
+
+        const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
+        const message = document.createElement('div'); // Create a message element
+        message.id = 'form-message';
+        form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const messageText = document.getElementById('message').value;
+            const submitBtn = form.querySelector('input[type="submit"]');
+
+            // Disable the button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.value = 'Sending...';
+            message.textContent = '';
+
+            try {
+                // Call the Cloud Function
+                const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+                const result = await sendContactForm({
+                    name,
+                    email,
+                    subject,
+                    message: messageText,
+                    source: 'contact_form_page'
+                });
+
+                // Show success message
+                message.textContent = result.data.message;
+                message.style.color = 'green';
+
+                // Reset form on success
+                if (result.data.success) {
+                    form.reset();
+                }
+            } catch (error) {
+                // Show error message
+                // Check if error has a message property, otherwise provide a generic one.
+                // Firebase callable functions errors often have a 'message' property.
+                const errorMessage = error.message || 'Something went wrong. Please try again.';
+                message.textContent = errorMessage;
+                message.style.color = 'red';
+                console.error('Submission error:', error);
+            } finally {
+                // Re-enable the button
+                submitBtn.disabled = false;
+                submitBtn.value = 'Send Message';
+            }
+        });
+    });
 </script>
 
 <body class="is-boxed has-animations">
@@ -200,67 +269,5 @@
     </div>
     <script src="dist/js/main.min.js"></script>
 </body>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Sign in anonymously
-        firebase.auth().signInAnonymously().catch(error => {
-            console.error('Authentication error:', error);
-        });
-
-        const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
-        const message = document.createElement('div'); // Create a message element
-        message.id = 'form-message';
-        form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const subject = document.getElementById('subject').value;
-                    const messageText = document.getElementById('message').value; // Renamed to avoid conflict
-                    const submitBtn = form.querySelector('input[type="submit"]');
-
-                    // Disable the button and show loading state
-                    submitBtn.disabled = true;
-                    submitBtn.value = 'Sending...';
-                    message.textContent = '';
-
-                    try {
-                        // Call the Cloud Function
-                        const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
-                        const result = await sendContactForm({
-                            name,
-                            email,
-                            subject,
-                            message: messageText, // Use renamed variable
-                            source: 'contact_form_page'
-                        });
-
-                        // Show success message
-                        message.textContent = result.data.message;
-                        message.style.color = 'green';
-
-                        // Reset form on success
-                        if (result.data.success) {
-                            form.reset();
-                        }
-                    } catch (error) {
-                        // Show error message
-                        message.textContent = error.message || 'Something went wrong. Please try again.';
-                        message.style.color = 'red';
-                        console.error('Submission error:', error);
-                    } finally {
-                        // Re-enable the button
-                        submitBtn.disabled = false;
-                        submitBtn.value = 'Send Message';
-                    }
-                });
-            });
-        });
-    });
-</script>
 
 </html>
