@@ -113,7 +113,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script>
     <!-- Add App Check SDK -->
     <script
-        src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
+        src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1" async defer></script>
 </head>
 
 
@@ -133,18 +133,30 @@
         // Initialize App Check
         const appCheck = firebase.appCheck();
         try {
-            // Replace 'YOUR_RECAPTCHA_V3_SITE_KEY' with your actual reCAPTCHA v3 site key
+            console.log('[DEBUG] Before App Check activation, window.grecaptcha:', window.grecaptcha);
+            if (window.grecaptcha) {
+                console.log('[DEBUG] typeof window.grecaptcha.ready:', typeof window.grecaptcha.ready);
+                console.log('[DEBUG] typeof window.grecaptcha.execute:', typeof window.grecaptcha.execute);
+            }
+
             const provider = new firebase.appCheck.ReCaptchaV3Provider('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1');
-            appCheck.activate(provider, true); // Returns void, not a Promise
+            appCheck.activate(provider, true);
             console.log('App Check activated. Token auto-refresh is enabled.');
         } catch (e) {
             console.error('Error during App Check activation:', e);
         }
 
-        const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
-        const message = document.createElement('div'); // Create a message element
+        // Sign in anonymously - ensure this is called after App Check is activated if functions depend on it.
+        // For contact form submission, anonymous auth might not be strictly needed if App Check protects the function.
+        // However, if you have other rules or logic relying on auth, keep it.
+        firebase.auth().signInAnonymously().catch(error => {
+            console.error('Authentication error:', error);
+        });
+
+        const form = document.querySelector('form[action="#"]');
+        const message = document.createElement('div');
         message.id = 'form-message';
-        form.parentNode.insertBefore(message, form.nextSibling); // Insert message element after the form
+        form.parentNode.insertBefore(message, form.nextSibling);
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
