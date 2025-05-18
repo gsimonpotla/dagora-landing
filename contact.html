@@ -126,12 +126,6 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Initialize App Check
-    const appCheck = firebase.appCheck();
-    appCheck.activate(
-        new firebase.appCheck.ReCaptchaV3Provider('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT'), // Replace with your site key
-        true);
-
 </script>
 
 <body class="is-boxed has-animations">
@@ -221,19 +215,19 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            //grecaptcha.ready(function () {
-                //grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
                     const name = document.getElementById('name').value;
                     const email = document.getElementById('email').value;
                     const subject = document.getElementById('subject').value;
                     const messageText = document.getElementById('message').value; // Renamed to avoid conflict
                     const submitBtn = form.querySelector('input[type="submit"]');
-            
+
                     // Disable the button and show loading state
                     submitBtn.disabled = true;
                     submitBtn.value = 'Sending...';
                     message.textContent = '';
-            
+
                     try {
                         // Call the Cloud Function
                         const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
@@ -244,11 +238,11 @@
                             message: messageText, // Use renamed variable
                             source: 'contact_form_page'
                         });
-            
+
                         // Show success message
                         message.textContent = result.data.message;
                         message.style.color = 'green';
-            
+
                         // Reset form on success
                         if (result.data.success) {
                             form.reset();
@@ -263,8 +257,8 @@
                         submitBtn.disabled = false;
                         submitBtn.value = 'Send Message';
                     }
-               // });
-            //});
+                });
+            });
         });
     });
 </script>
