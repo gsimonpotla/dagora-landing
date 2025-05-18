@@ -104,15 +104,19 @@
             padding-top: 10px;
         }
     </style>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Firebase Auth and Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script>
+    <!-- Add App Check SDK -->
+    <script
+        src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
 </head>
 
-<!-- Firebase App (the core Firebase SDK) -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<!-- Firebase Auth and Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script> <!-- Add App Check SDK -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -137,11 +141,6 @@
             console.error('Error during App Check activation:', e);
         }
 
-        // Sign in anonymously
-        firebase.auth().signInAnonymously().catch(error => {
-            console.error('Authentication error:', error);
-        });
-
         const form = document.querySelector('form[action="#"]'); // Updated to select the contact form
         const message = document.createElement('div'); // Create a message element
         message.id = 'form-message';
@@ -150,49 +149,58 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const messageText = document.getElementById('message').value;
-            const submitBtn = form.querySelector('input[type="submit"]');
+            grecaptcha.enterprise.ready(async () => {
+                const token = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'LOGIN' });
 
-            // Disable the button and show loading state
-            submitBtn.disabled = true;
-            submitBtn.value = 'Sending...';
-            message.textContent = '';
-
-            try {
-                // Call the Cloud Function
-                const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
-                const result = await sendContactForm({
-                    name,
-                    email,
-                    subject,
-                    message: messageText,
-                    source: 'contact_form_page'
+                // Sign in anonymously
+                firebase.auth().signInAnonymously().catch(error => {
+                    console.error('Authentication error:', error);
                 });
 
-                // Show success message
-                message.textContent = result.data.message;
-                message.style.color = 'green';
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const messageText = document.getElementById('message').value;
+                const submitBtn = form.querySelector('input[type="submit"]');
 
-                // Reset form on success
-                if (result.data.success) {
-                    form.reset();
+                // Disable the button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.value = 'Sending...';
+                message.textContent = '';
+
+                try {
+                    // Call the Cloud Function
+                    const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+                    const result = await sendContactForm({
+                        name,
+                        email,
+                        subject,
+                        message: messageText,
+                        source: 'contact_form_page'
+                    });
+
+                    // Show success message
+                    message.textContent = result.data.message;
+                    message.style.color = 'green';
+
+                    // Reset form on success
+                    if (result.data.success) {
+                        form.reset();
+                    }
+                } catch (error) {
+                    // Show error message
+                    // Check if error has a message property, otherwise provide a generic one.
+                    // Firebase callable functions errors often have a 'message' property.
+                    const errorMessage = error.message || 'Something went wrong. Please try again.';
+                    message.textContent = errorMessage;
+                    message.style.color = 'red';
+                    console.error('Submission error:', error);
+                } finally {
+                    // Re-enable the button
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Send Message';
                 }
-            } catch (error) {
-                // Show error message
-                // Check if error has a message property, otherwise provide a generic one.
-                // Firebase callable functions errors often have a 'message' property.
-                const errorMessage = error.message || 'Something went wrong. Please try again.';
-                message.textContent = errorMessage;
-                message.style.color = 'red';
-                console.error('Submission error:', error);
-            } finally {
-                // Re-enable the button
-                submitBtn.disabled = false;
-                submitBtn.value = 'Send Message';
-            }
+            });
         });
     });
 </script>
