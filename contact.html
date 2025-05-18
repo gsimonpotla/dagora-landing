@@ -221,8 +221,8 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            grecaptcha.ready(function () {
-                grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
+            //grecaptcha.ready(function () {
+                //grecaptcha.execute('6LdVTT8rAAAAAJDj0U2xR3g05QcQJJKQrBjpbAHT', { action: 'submit' }).then(async function (token) {
                     const name = document.getElementById('name').value;
                     const email = document.getElementById('email').value;
                     const subject = document.getElementById('subject').value;
@@ -263,8 +263,8 @@
                         submitBtn.disabled = false;
                         submitBtn.value = 'Send Message';
                     }
-                });
-            });
+               // });
+            //});
         });
     });
 </script>
