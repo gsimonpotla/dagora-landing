@@ -168,7 +168,7 @@
 
 	/* When the checkbox is checked, add a blue background */
 	.container input:checked~.checkmark {
-		background-color: #2196F3;
+		background-color: #3880ff;
 	}
 
 	/* Create the checkmark/indicator (hidden when not checked) */
@@ -205,40 +205,68 @@
 
 	/* Quiz answer styling */
 	.q1-option .result-indicator,
-	.q2-option .result-indicator {
+	.q2-option .result-indicator,
+	.q3-option .result-indicator,
+	.q4-option .result-indicator,
+	.q5-option .result-indicator,
+	.q6-option .result-indicator {
 		margin-left: 8px;
 		font-weight: bold;
 	}
 
 	.q1-option.correct > .result-indicator::after,
-	.q2-option.correct > .result-indicator::after {
+	.q2-option.correct > .result-indicator::after,
+	.q3-option.correct > .result-indicator::after,
+	.q4-option.correct > .result-indicator::after,
+	.q5-option.correct > .result-indicator::after,
+	.q6-option.correct > .result-indicator::after {
 		content: ' ✔';
 		color: green;
 	}
 
 	.q1-option.incorrect > .result-indicator::after,
-	.q2-option.incorrect > .result-indicator::after {
+	.q2-option.incorrect > .result-indicator::after,
+	.q3-option.incorrect > .result-indicator::after,
+	.q4-option.incorrect > .result-indicator::after,
+	.q5-option.incorrect > .result-indicator::after,
+	.q6-option.incorrect > .result-indicator::after { /* Though Q6 won't use .incorrect styling for the chosen answer */
 		content: ' ✖';
 		color: red;
 	}
 
 	.q1-option.correct,
-	.q2-option.correct {
+	.q2-option.correct,
+	.q3-option.correct,
+	.q4-option.correct,
+	.q5-option.correct,
+	.q6-option.correct {
 		color: green !important;
 	}
 
 	.q1-option.incorrect,
-	.q2-option.incorrect {
+	.q2-option.incorrect,
+	.q3-option.incorrect,
+	.q4-option.incorrect,
+	.q5-option.incorrect,
+	.q6-option.incorrect {
 		color: red !important;
 	}
 
 	.q1-option.correct .checkmark,
-	.q2-option.correct .checkmark {
+	.q2-option.correct .checkmark,
+	.q3-option.correct .checkmark,
+	.q4-option.correct .checkmark,
+	.q5-option.correct .checkmark,
+	.q6-option.correct .checkmark {
 		background-color: #e8f5e9; /* Lighter green */
 		border: 1px solid green;
 	}
 	.q1-option.incorrect .checkmark,
-	.q2-option.incorrect .checkmark {
+	.q2-option.incorrect .checkmark,
+	.q3-option.incorrect .checkmark,
+	.q4-option.incorrect .checkmark,
+	.q5-option.incorrect .checkmark,
+	.q6-option.incorrect .checkmark {
 		background-color: #ffebee; /* Lighter red */
 		border: 1px solid red;
 	}
@@ -246,12 +274,24 @@
 	.q1-option.correct .checkmark:after,
 	.q1-option.incorrect .checkmark:after,
 	.q2-option.correct .checkmark:after,
-	.q2-option.incorrect .checkmark:after {
+	.q2-option.incorrect .checkmark:after,
+	.q3-option.correct .checkmark:after,
+	.q3-option.incorrect .checkmark:after,
+	.q4-option.correct .checkmark:after,
+	.q4-option.incorrect .checkmark:after,
+	.q5-option.correct .checkmark:after,
+	.q5-option.incorrect .checkmark:after,
+	.q6-option.correct .checkmark:after,
+	.q6-option.incorrect .checkmark:after {
 		display: none; /* Hide original checkmark indicator inside box after selection */
 	}
 
 	.q1-option input[type="checkbox"],
-	.q2-option input[type="checkbox"] {
+	.q2-option input[type="checkbox"],
+	.q3-option input[type="checkbox"],
+	.q4-option input[type="checkbox"],
+	.q5-option input[type="checkbox"],
+	.q6-option input[type="checkbox"] {
 		position: absolute;
 		opacity: 0;
 		cursor: pointer;
@@ -545,7 +585,7 @@
 							<div class="feature is-revealing" style="padding: 16px 10px;">
 								<div class="feature-inner">
 									<div class="slider">
-										<div class="slides">
+										<div class="slides" style="overflow: hidden;">
 											<div id="slide-1">
 												<table style="margin: 6px;color: midnightblue;">
 													<tr>
@@ -559,35 +599,47 @@
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
 																Which <span style="font-weight: 800;">debate bully
-																	strategy</span> did Trump used during US presidential debate against Biden, when he claimed that Biden wanted to quadruple taxes?
+																	strategy</span> did Trump used during US
+																presidential debate against Biden, when he claimed that
+																Biden wanted to quadruple taxes?
 															</div>
 														</td>
 													</tr>
 													<tr>
 														<td>
 															<div id="q1_options">
-																<label class="container q1-option" data-answer="Dodger">Dodger
-																	<input type="checkbox" name="q1_answer_cb" value="Dodger">
+																<label class="container q1-option"
+																	data-answer="Dodger">Dodger
+																	<input type="checkbox" name="q1_answer_cb"
+																		value="Dodger">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q1-option" data-answer="Twister">Twister
-																	<input type="checkbox" name="q1_answer_cb" value="Twister">
+																<label class="container q1-option"
+																	data-answer="Twister">Twister
+																	<input type="checkbox" name="q1_answer_cb"
+																		value="Twister">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q1-option" data-answer="Wrangler">Wrangler
-																	<input type="checkbox" name="q1_answer_cb" value="Wrangler">
+																<label class="container q1-option"
+																	data-answer="Wrangler">Wrangler
+																	<input type="checkbox" name="q1_answer_cb"
+																		value="Wrangler">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q1-option" data-answer="Liar">Liar
-																	<input type="checkbox" name="q1_answer_cb" value="Liar">
+																<label class="container q1-option"
+																	data-answer="Liar">Liar
+																	<input type="checkbox" name="q1_answer_cb"
+																		value="Liar">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q1-option" data-answer="Brawler">Brawler
-																	<input type="checkbox" name="q1_answer_cb" value="Brawler">
+																<label class="container q1-option"
+																	data-answer="Brawler">Brawler
+																	<input type="checkbox" name="q1_answer_cb"
+																		value="Brawler">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
@@ -599,8 +651,12 @@
 															<span style="font-size: 12px;">🌐 &nbsp;<a
 																	href="https://www.youtube.com/watch?v=tZw0-ap7buo">Bo
 																	Seo - Debate Bullies</a></span>
-															<div id="q1_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
-																<a href="https://factcheck.afp.com/doc.afp.com.34ZM8LF" target="_blank" style="color: #1976D2;">Fact check: Trump falsely claimed Biden wanted to quadruple taxes</a>
+															<div id="q1_feedback"
+																style="display:none; font-size: 12px; margin-top: 10px;">
+																<a href="https://factcheck.afp.com/doc.afp.com.34ZM8LF"
+																	target="_blank" style="color: #1976D2;">Fact check:
+																	Trump falsely claimed Biden wanted to quadruple
+																	taxes</a>
 															</div>
 														</td>
 													</tr>
@@ -627,18 +683,24 @@
 													<tr>
 														<td>
 															<div id="q2_options">
-																<label class="container q2-option" data-answer="Ethos">Ethos
-																	<input type="checkbox" name="q2_answer_cb" value="Ethos">
+																<label class="container q2-option"
+																	data-answer="Ethos">Ethos
+																	<input type="checkbox" name="q2_answer_cb"
+																		value="Ethos">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q2-option" data-answer="Logos">Logos
-																	<input type="checkbox" name="q2_answer_cb" value="Logos">
+																<label class="container q2-option"
+																	data-answer="Logos">Logos
+																	<input type="checkbox" name="q2_answer_cb"
+																		value="Logos">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q2-option" data-answer="Pathos">Pathos
-																	<input type="checkbox" name="q2_answer_cb" value="Pathos">
+																<label class="container q2-option"
+																	data-answer="Pathos">Pathos
+																	<input type="checkbox" name="q2_answer_cb"
+																		value="Pathos">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
@@ -648,8 +710,10 @@
 													<tr>
 														<td>
 															<span style="font-size: 12px;">🌐 &nbsp;<a
-																	href="https://www.youtube.com/watch?v=3rlbm53n_6A">Aristotle's Three Modes of Persuasion</a></span>
-															<div id="q2_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
+																	href="https://www.youtube.com/watch?v=3rlbm53n_6A">Aristotle's
+																	Three Modes of Persuasion</a></span>
+															<div id="q2_feedback"
+																style="display:none; font-size: 12px; margin-top: 10px;">
 																<!-- You can add a specific link for Q2 feedback here if needed -->
 															</div>
 														</td>
@@ -676,27 +740,51 @@
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Meta-analysis
-																	<input type="checkbox">
+															<div id="q3_options">
+																<label class="container q3-option"
+																	data-answer="Meta-analysis">Meta-analysis
+																	<input type="checkbox" name="q3_answer_cb"
+																		value="Meta-analysis">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Scientific study
-																	<input type="checkbox">
+																<label class="container q3-option"
+																	data-answer="Scientific study">Scientific study
+																	<input type="checkbox" name="q3_answer_cb"
+																		value="Scientific study">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Statistics
-																	<input type="checkbox">
+																<label class="container q3-option"
+																	data-answer="Statistics">Statistics
+																	<input type="checkbox" name="q3_answer_cb"
+																		value="Statistics">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">News, Events, Facts
-																	<input type="checkbox">
+																<label class="container q3-option"
+																	data-answer="News, Events, Facts">News, Events,
+																	Facts
+																	<input type="checkbox" name="q3_answer_cb"
+																		value="News, Events, Facts">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Opinions, Rumors
-																	<input type="checkbox">
+																<label class="container q3-option"
+																	data-answer="Opinions, Rumors">Opinions, Rumors
+																	<input type="checkbox" name="q3_answer_cb"
+																		value="Opinions, Rumors">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div id="q3_feedback"
+																style="display:none; font-size: 12px; margin-top: 10px;">
+																<!-- You can add a specific link for Q3 feedback here if needed -->
 															</div>
 														</td>
 													</tr>
@@ -706,42 +794,68 @@
 												<table style="margin: 6px;color: midnightblue;">
 													<tr>
 														<td>
-															<img src="./assets/trump_dogs.jpg"
-																style="border-radius: 10px;">
+															<img src="./assets/obama.jpg"
+																style="border-radius: 10px;margin-top: 18px;">
 														</td>
 													</tr>
 													<tr>
 														<td>
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
-																According to <span style="font-weight: 800;">Toulmin
-																	model</span>, why is argument weak?
+																Obama refers to other countries, such as Australia and
+																the UK, that significantly reduced gun violence through
+																legislation. What <span
+																	style="font-weight: 800;">Toulmin component</span>
+																does this represent?
 															</div>
 														</td>
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Warrant
-																	<input type="checkbox">
+															<div id="q4_options">
+																<label class="container q4-option"
+																	data-answer="Warrant">Warrant
+																	<input type="checkbox" name="q4_answer_cb"
+																		value="Warrant">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Backing
-																	<input type="checkbox">
+																<label class="container q4-option"
+																	data-answer="Backing">Backing
+																	<input type="checkbox" name="q4_answer_cb"
+																		value="Backing">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Ground
-																	<input type="checkbox">
+																<label class="container q4-option"
+																	data-answer="Ground">Ground
+																	<input type="checkbox" name="q4_answer_cb"
+																		value="Ground">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Rebuttal
-																	<input type="checkbox">
+																<label class="container q4-option"
+																	data-answer="Rebuttal">Rebuttal
+																	<input type="checkbox" name="q4_answer_cb"
+																		value="Rebuttal">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Qualifier
-																	<input type="checkbox">
+																<label class="container q4-option"
+																	data-answer="Qualifier">Qualifier
+																	<input type="checkbox" name="q4_answer_cb"
+																		value="Qualifier">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div id="q4_feedback"
+																style="display:none; font-size: 12px; margin-top: 10px;">
+																<!-- You can add a specific link for Q4 feedback here if needed -->
 															</div>
 														</td>
 													</tr>
@@ -751,7 +865,7 @@
 												<table style="margin: 6px;color: midnightblue;">
 													<tr>
 														<td>
-															<img src="./assets/trump_dogs.jpg"
+															<img src="./assets/harris.jpg"
 																style="border-radius: 10px;">
 														</td>
 													</tr>
@@ -766,31 +880,58 @@
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Magnified minority
-																	<input type="checkbox">
+															<div id="q5_options">
+																<label class="container q5-option"
+																	data-answer="Magnified minority">
+																	Magnified minority
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="Magnified minority">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Straw man
-																	<input type="checkbox">
+																<label class="container q5-option"
+																	data-answer="Straw man">Straw man
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="Straw man">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">False choice
-																	<input type="checkbox">
+																<label class="container q5-option"
+																	data-answer="False choice">False choice
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="False choice">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Red herring
-																	<input type="checkbox">
+																<label class="container q5-option"
+																	data-answer="Red herring">Red herring
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="Red herring">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Ad hominem
-																	<input type="checkbox">
+																<label class="container q5-option"
+																	data-answer="Ad hominem">Ad hominem
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="Ad hominem">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Cherry picking
-																	<input type="checkbox">
+																<label class="container q5-option"
+																	data-answer="Cherry picking">Cherry picking
+																	<input type="checkbox" name="q5_answer_cb"
+																		value="Cherry picking">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div id="q5_feedback"
+																style="display:none; font-size: 12px; margin-top: 10px;">
+																<!-- You can add a specific link for Q5 feedback here if needed -->
 															</div>
 														</td>
 													</tr>
@@ -800,7 +941,7 @@
 												<table style="margin: 6px;color: midnightblue;">
 													<tr>
 														<td>
-															<img src="./assets/trump_dogs.jpg"
+															<img src="./assets/musk-bias.jpg"
 																style="border-radius: 10px;">
 														</td>
 													</tr>
@@ -815,27 +956,39 @@
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Confirmation Bias
-																	<input type="checkbox">
+															<div id="q6_options">
+																<label class="container q6-option" data-answer="Confirmation Bias">Confirmation Bias
+																	<input type="checkbox" name="q6_answer_cb" value="Confirmation Bias">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Bandwagon Effect
-																	<input type="checkbox">
+																<label class="container q6-option" data-answer="Bandwagon Effect">Bandwagon Effect
+																	<input type="checkbox" name="q6_answer_cb" value="Bandwagon Effect">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Negativity Bias
-																	<input type="checkbox">
+																<label class="container q6-option" data-answer="False Consensus Effect">False Consensus Effect
+																	<input type="checkbox" name="q6_answer_cb" value="False Consensus Effect">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Ingroup Bias
-																	<input type="checkbox">
+																<label class="container q6-option" data-answer="Ingroup Bias">Ingroup Bias
+																	<input type="checkbox" name="q6_answer_cb" value="Ingroup Bias">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">False Consensus Effect
-																	<input type="checkbox">
+																<label class="container q6-option" data-answer="All of them">All of them
+																	<input type="checkbox" name="q6_answer_cb" value="All of them">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div id="q6_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
+																<!-- You can add a specific link for Q6 feedback here if needed -->
 															</div>
 														</td>
 													</tr>
@@ -1250,7 +1403,7 @@
 
 			q1Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
-				checkbox.addEventListener('click', function() {
+				checkbox.addEventListener('click', function () {
 					// Disable all checkboxes in this group once an answer is made
 					document.querySelectorAll('#q1_options input[type="checkbox"]').forEach(cb => {
 						cb.disabled = true;
@@ -1280,7 +1433,7 @@
 
 			q2Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
-				checkbox.addEventListener('click', function() {
+				checkbox.addEventListener('click', function () {
 					document.querySelectorAll('#q2_options input[type="checkbox"]').forEach(cb => {
 						cb.disabled = true;
 					});
@@ -1301,7 +1454,124 @@
 				});
 			});
 
-			// If you have more questions (slide-3, etc.) that need similar logic,
+			// Quiz logic for Question 3 (slide-3)
+			const q3Options = document.querySelectorAll('#q3_options .q3-option');
+			const q3FeedbackDiv = document.getElementById('q3_feedback');
+			const q3CorrectAnswer = "Opinions, Rumors";
+
+			q3Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function () {
+					document.querySelectorAll('#q3_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q3CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						q3Options.forEach(opt => {
+							if (opt.dataset.answer === q3CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					q3FeedbackDiv.style.display = 'block'; // Show feedback div for Q3
+				});
+
+
+			});
+
+			// Quiz logic for Question 4 (slide-4)
+			const q4Options = document.querySelectorAll('#q4_options .q4-option');
+			const q4FeedbackDiv = document.getElementById('q4_feedback');
+			const q4CorrectAnswer = "Backing";
+
+			q4Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function () {
+					document.querySelectorAll('#q4_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q4CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						q4Options.forEach(opt => {
+							if (opt.dataset.answer === q4CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					q4FeedbackDiv.style.display = 'block'; // Show feedback div for Q4
+				});
+			});
+
+			// Quiz logic for Question 5 (slide-5)
+			const q5Options = document.querySelectorAll('#q5_options .q5-option');
+			const q5FeedbackDiv = document.getElementById('q5_feedback');
+			const q5CorrectAnswer = "Red herring";
+
+			q5Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function () {
+					document.querySelectorAll('#q5_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q5CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						q5Options.forEach(opt => {
+							if (opt.dataset.answer === q5CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					q5FeedbackDiv.style.display = 'block'; // Show feedback div for Q5
+				});
+			});
+
+			// Quiz logic for Question 6 (slide-6)
+			const q6Options = document.querySelectorAll('#q6_options .q6-option');
+			const q6FeedbackDiv = document.getElementById('q6_feedback');
+			const q6CorrectAnswer = "All of them"; // Define the correct answer
+
+			q6Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function() {
+					// Disable all checkboxes in this group once an answer is made
+					document.querySelectorAll('#q6_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q6CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						// Highlight the correct answer if the wrong one was chosen
+						q6Options.forEach(opt => {
+							if (opt.dataset.answer === q6CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					
+					q6FeedbackDiv.style.display = 'block'; // Show feedback div for Q6
+				});
+			});
+
+			// If you have more questions (slide-7, etc.) that need similar logic,
 			// you would replicate the above structure for each:
 			// const q3Options = document.querySelectorAll('#q3_options .q3-option');
 			// const q3FeedbackDiv = document.getElementById('q3_feedback');
