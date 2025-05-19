@@ -150,19 +150,19 @@
                     true // activate even if token is not immediately available
                 );
                 console.log("Firebase App Check Activated with reCAPTCHA v3");
+
+                const contactForm = document.getElementById('contactForm');
+                const messageEl = document.getElementById('formMessage');
+
+                if (contactForm) {
+                    contactForm.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        handleFormSubmission();
+                    });
+                }
             } catch (error) {
                 console.error("Error initializing Firebase App Check:", error);
             }
-        }
-
-        const contactForm = document.getElementById('contactForm');
-        const messageEl = document.getElementById('formMessage');
-
-        if (contactForm) {
-            contactForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                handleFormSubmission();
-            });
         }
     });
 
@@ -272,7 +272,7 @@
             </div>
         </header>
 
-        <main>
+        <main  style="z-index:9;">
             <section class="contact-form-section">
                 <div class="contact-form-container">
                     <h1>Contact Us</h1>
