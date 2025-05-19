@@ -170,7 +170,7 @@
     });
 
     async function handleFormSubmission(recaptchaToken) { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
-        // console.log('reCAPTCHA token:', recaptchaToken); // For debugging
+        console.log('reCAPTCHA token:', recaptchaToken); // For debugging
 
         const form = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
@@ -182,14 +182,14 @@
 
         // Sign in anonymously - App Check works with anonymous or authenticated users.
         // This is needed if your callable function's security rules require some form of auth.
-        try {
-            await firebase.auth().signInAnonymously();
-        } catch (error) {
-            console.error('Authentication error:', error);
-            messageEl.textContent = 'Authentication failed. Please try again.';
-            messageEl.style.color = 'red';
-            return; // Stop if auth fails
-        }
+        //try {
+        //    await firebase.auth().signInAnonymously();
+        //} catch (error) {
+        //    console.error('Authentication error:', error);
+        //    messageEl.textContent = 'Authentication failed. Please try again.';
+        //    messageEl.style.color = 'red';
+        //    return; // Stop if auth fails
+        //}
 
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
