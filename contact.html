@@ -123,7 +123,13 @@
 
         if (contactForm) {
             contactForm.addEventListener('submit', function (event) {
-                event.preventDefault();
+                try {
+                    console.log('Form submit event listener triggered.');
+                    event.preventDefault();
+                    console.log('Default form submission prevented.');
+                } catch (error) {
+                    console.error('Error in form submission:', error);
+                }
 
                 // Initialize Firebase
                 const firebaseConfig = {
@@ -152,24 +158,13 @@
                     return;
                 }
 
-                grecaptcha.enterprise.ready(async () => {
-                    try {
-                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'submit_contact_form' });
-                        await handleFormSubmission(recaptchaToken);
-                    } catch (error) {
-                        console.error('reCAPTCHA execution error:', error);
-                        if (messageEl) {
-                            messageEl.textContent = 'Failed to verify reCAPTCHA. Please try again.';
-                            messageEl.style.color = 'red';
-                        }
-                    }
-                });
+                handleFormSubmission()
             });
         }
     });
 
-    async function handleFormSubmission(recaptchaToken) { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
-        console.log('reCAPTCHA token:', recaptchaToken); // For debugging
+    async function handleFormSubmission() { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
+        //console.log('reCAPTCHA token:', recaptchaToken); // For debugging
 
         const form = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
