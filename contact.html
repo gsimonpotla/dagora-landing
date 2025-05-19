@@ -217,6 +217,7 @@
             // Call the Cloud Function
             // The App Check token is automatically included by the Firebase SDK
             const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+            console.log('sendContactForm function:', sendContactForm);
             const result = await sendContactForm({
                 name,
                 email,
