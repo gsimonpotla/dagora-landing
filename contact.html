@@ -111,65 +111,57 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-check-compat.js"></script>
 
 <script>
-    // --- START: Firebase Configuration ---
-    // IMPORTANT: Replace with your actual Firebase project configuration.
-    const firebaseConfig = {
-        apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
-        authDomain: "dagora.app",
-        projectId: "dagora-ed398",
-        storageBucket: "dagora-ed398.appspot.com",
-        messagingSenderId: "437561736837",
-    };
-    // --- END: Firebase Configuration ---
-
-    // --- START: App Check Configuration ---
-    // IMPORTANT: Replace with your reCAPTCHA v3 site key.
-    // You can get this from the Google Cloud Console -> APIs & Services -> Credentials -> reCAPTCHA v3.
-    // Make sure to register your domain. For localhost development, 'localhost' is usually permitted by default by reCAPTCHA.
-    const recaptchaV3SiteKey = "6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1";
-    // --- END: App Check Configuration ---
-
-    // --- START: Cloud Function Configuration ---
-    // IMPORTANT: Replace with your callable function's name.
-    const functionName = "sendContactForm";
-    // Optional: If your function is not in 'us-central1', specify the region.
-    // const functionRegion = "your-function-region"; // e.g., "europe-west1"
-    // --- END: Cloud Function Configuration ---
-
-
-    // Initialize Firebase
-    let app;
-    try {
-        app = firebase.initializeApp(firebaseConfig);
-        console.log("Firebase Initialized");
-    } catch (error) {
-        console.error("Error initializing Firebase:", error);
-    }
-
-    // Initialize Firebase App Check
-    let appCheck;
-    if (app) {
-        try {
-            appCheck = firebase.appCheck(app);
-            appCheck.activate(
-                new firebase.appCheck.ReCaptchaV3Provider(recaptchaV3SiteKey),
-                true // activate even if token is not immediately available
-            );
-            console.log("Firebase App Check Activated with reCAPTCHA v3");
-        } catch (error) {
-            console.error("Error initializing Firebase App Check:", error);
-        }
-    }
-
-    // Get a reference to Firebase Functions
-    const functions = app ? firebase.functions(/* functionRegion */) : null; // Pass region if needed
-
-</script>
-
-
-
-<script>
     document.addEventListener('DOMContentLoaded', function () {
+        // --- START: Firebase Configuration ---
+        // IMPORTANT: Replace with your actual Firebase project configuration.
+        const firebaseConfig = {
+            apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+            authDomain: "dagora.app",
+            projectId: "dagora-ed398",
+            storageBucket: "dagora-ed398.appspot.com",
+            messagingSenderId: "437561736837",
+        };
+        // --- END: Firebase Configuration ---
+
+        // --- START: App Check Configuration ---
+        // IMPORTANT: Replace with your reCAPTCHA v3 site key.
+        // You can get this from the Google Cloud Console -> APIs & Services -> Credentials -> reCAPTCHA v3.
+        // Make sure to register your domain. For localhost development, 'localhost' is usually permitted by default by reCAPTCHA.
+        const recaptchaV3SiteKey = "6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1";
+        // --- END: App Check Configuration ---
+
+        // --- START: Cloud Function Configuration ---
+        // IMPORTANT: Replace with your callable function's name.
+        const functionName = "sendContactForm";
+        // Optional: If your function is not in 'us-central1', specify the region.
+        // const functionRegion = "your-function-region"; // e.g., "europe-west1"
+        // --- END: Cloud Function Configuration ---
+
+
+        // Initialize Firebase
+        let app;
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            console.log("Firebase Initialized");
+        } catch (error) {
+            console.error("Error initializing Firebase:", error);
+        }
+
+        // Initialize Firebase App Check
+        let appCheck;
+        if (app) {
+            try {
+                appCheck = firebase.appCheck(app);
+                appCheck.activate(
+                    new firebase.appCheck.ReCaptchaV3Provider(recaptchaV3SiteKey),
+                    true // activate even if token is not immediately available
+                );
+                console.log("Firebase App Check Activated with reCAPTCHA v3");
+            } catch (error) {
+                console.error("Error initializing Firebase App Check:", error);
+            }
+        }
+
         const contactForm = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
 
@@ -181,7 +173,7 @@
         }
     });
 
-    async function handleFormSubmission() { 
+    async function handleFormSubmission() {
         const form = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
 
@@ -196,7 +188,7 @@
             submitBtn.disabled = true;
             submitBtn.value = 'Sending...';
         }
-        messageEl.textContent = ''; 
+        messageEl.textContent = '';
 
         try {
             console.log('Sending contact form data:', {
