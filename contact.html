@@ -196,7 +196,7 @@
                 sendContactFormCallable = firebase.functions().httpsCallable('sendContactForm');
             } catch (e) {
                 console.error('Error creating callable function:', e);
-                messageEl.textContent = 'Error setting up the call. Please try again.';
+                messageEl.textContent = 'Error setting up the call. Please try again or reach us through patreon.com/dagora';
                 messageEl.style.color = 'red';
                 if (submitBtn) {
                     submitBtn.disabled = false;
@@ -229,16 +229,16 @@
             console.log('Function result:', result);
             // ...existing code... catch (error) {
             console.error('Submission error:', error);
-            let errorMessage = error.message || 'Something went wrong. Please try again.';
+            let errorMessage = error.message || 'Something went wrong. Please try again or reach us through patreon.com/dagora.';
             // You might want to check error.code for specific App Check failures, e.g., 'functions/unauthenticated'
             // if (error.code === 'functions/unauthenticated') {
-            //     errorMessage = "App Check failed: Your request could not be verified. Please try again.";
+            //     errorMessage = "App Check failed: Your request could not be verified. Please try again or reach us through patreon.com/dagora";
             // }
             messageEl.textContent = errorMessage;
             messageEl.style.color = 'red';
         } catch (e) {
             console.error('Error:', e);
-            messageEl.textContent = 'Error. Please try again.';
+            messageEl.textContent = 'Error. Please try again or reach us through patreon.com/dagora.';
             messageEl.style.color = 'red';
             if (submitBtn) {
                 submitBtn.disabled = false;
