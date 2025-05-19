@@ -104,14 +104,72 @@
             padding-top: 10px;
         }
     </style>
-
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script>
-    <!-- Add App Check SDK -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
 </head>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-check-compat.js"></script>
+
+<script>
+    // --- START: Firebase Configuration ---
+    // IMPORTANT: Replace with your actual Firebase project configuration.
+    const firebaseConfig = {
+        apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+        authDomain: "dagora.app",
+        projectId: "dagora-ed398",
+        storageBucket: "dagora-ed398.appspot.com",
+        messagingSenderId: "437561736837",
+    };
+    // --- END: Firebase Configuration ---
+
+    // --- START: App Check Configuration ---
+    // IMPORTANT: Replace with your reCAPTCHA v3 site key.
+    // You can get this from the Google Cloud Console -> APIs & Services -> Credentials -> reCAPTCHA v3.
+    // Make sure to register your domain. For localhost development, 'localhost' is usually permitted by default by reCAPTCHA.
+    const recaptchaV3SiteKey = "6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1";
+    // --- END: App Check Configuration ---
+
+    // --- START: Cloud Function Configuration ---
+    // IMPORTANT: Replace with your callable function's name.
+    const functionName = "sendContactForm";
+    // Optional: If your function is not in 'us-central1', specify the region.
+    // const functionRegion = "your-function-region"; // e.g., "europe-west1"
+    // --- END: Cloud Function Configuration ---
+
+
+    // Initialize Firebase
+    let app;
+    try {
+        app = firebase.initializeApp(firebaseConfig);
+        console.log("Firebase Initialized");
+        showMessage("Firebase initialized successfully.", "success");
+    } catch (error) {
+        console.error("Error initializing Firebase:", error);
+        document.getElementById("responseArea").textContent = `Error initializing Firebase: ${error.message}`;
+        showMessage(`Error initializing Firebase: ${error.message}`, "error");
+    }
+
+    // Initialize Firebase App Check
+    let appCheck;
+    if (app) {
+        try {
+            appCheck = firebase.appCheck(app);
+            appCheck.activate(
+                new firebase.appCheck.ReCaptchaV3Provider(recaptchaV3SiteKey),
+                true // activate even if token is not immediately available
+            );
+            console.log("Firebase App Check Activated with reCAPTCHA v3");
+            showMessage("App Check activated.", "info");
+        } catch (error) {
+            console.error("Error initializing Firebase App Check:", error);
+            document.getElementById("responseArea").textContent = `Error initializing App Check: ${error.message}`;
+            showMessage(`Error initializing App Check: ${error.message}`, "error");
+        }
+    }
+
+    // Get a reference to Firebase Functions
+    const functions = app ? firebase.functions(/* functionRegion */) : null; // Pass region if needed
+</script>
 
 
 
@@ -123,109 +181,35 @@
         if (contactForm) {
             contactForm.addEventListener('submit', function (event) {
                 event.preventDefault();
-
-                // Initialize Firebase
-                const firebaseConfig = {
-                    apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
-                    authDomain: "dagora.app",
-                    projectId: "dagora-ed398",
-                    storageBucket: "dagora-ed398.appspot.com",
-                    messagingSenderId: "437561736837",
-                };
-                firebase.initializeApp(firebaseConfig);
-
-                // Initialize App Check
-                const appCheck = firebase.appCheck();
-                appCheck.activate(
-                    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
-                    true // auto-refresh token
-                );
-
-
-                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
-                    console.error('reCAPTCHA script not loaded');
-                    if (messageEl) {
-                        messageEl.textContent = 'Error: reCAPTCHA not loaded. Please try again later.';
-                        messageEl.style.color = 'red';
-                    }
-                    return;
-                }
-
-                grecaptcha.enterprise.ready(async () => {
-                    try {
-                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'submit_contact_form' });
-                        await handleFormSubmission(recaptchaToken);
-                    } catch (error) {
-                        console.error('reCAPTCHA execution error:', error);
-                        if (messageEl) {
-                            messageEl.textContent = 'Failed to verify reCAPTCHA. Please try again.';
-                            messageEl.style.color = 'red';
-                        }
-                    }
-                });
+                handleFormSubmission();
             });
         }
     });
 
-    async function handleFormSubmission(recaptchaToken) { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
-        console.log('reCAPTCHA token:', recaptchaToken); // For debugging
-
+    async function handleFormSubmission() { 
         const form = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
-
-        if (!form || !messageEl) {
-            console.error('Form or message element not found.');
-            return;
-        }
-
-        // Sign in anonymously - App Check works with anonymous or authenticated users.
-        // This is needed if your callable function's security rules require some form of auth.
-        //try {
-        //    await firebase.auth().signInAnonymously();
-        //} catch (error) {
-        //    console.error('Authentication error:', error);
-        //    messageEl.textContent = 'Authentication failed. Please try again.';
-        //    messageEl.style.color = 'red';
-        //    return; // Stop if auth fails
-        //}
 
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const subject = document.getElementById('subject').value;
-        const messageText = document.getElementById('message').value; // Textarea id is 'message'
+        const messageText = document.getElementById('message').value;
         const submitBtn = form.querySelector('input[type="submit"]');
-
-        console.error('message: ', messageText); // For debugging
 
         // Disable the button and show loading state
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.value = 'Sending...';
         }
-        messageEl.textContent = ''; // Clear previous messages
+        messageEl.textContent = ''; 
 
-        // ...existing code...
         try {
             console.log('Sending contact form data:', {
                 name,
                 email,
                 subject,
-                message: messageText,
-                recaptchaToken
+                message: messageText
             });
-
-            // --- Start Debugging ---
-            if (typeof firebase.functions !== 'function') {
-                console.error('Error: firebase.functions is not a function! Make sure the Firebase Functions SDK is loaded and initialized.');
-                messageEl.textContent = 'Error: Firebase Functions not available.';
-                messageEl.style.color = 'red';
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.value = 'Send Message';
-                }
-                return; // Stop further execution
-            }
-            console.log('firebase.functions is available:', firebase.functions());
 
             let sendContactFormCallable;
             try {
