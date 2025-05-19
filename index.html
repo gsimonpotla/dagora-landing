@@ -109,7 +109,6 @@
 		text-decoration: none;
 		align-items: center;
 		justify-content: center;
-		border-radius: 50%;
 		margin: 0 0 0.5rem 0;
 		position: relative;
 	}
@@ -996,12 +995,12 @@
 											</div>
 										</div>
 										
-										<a href="#slide-1">1</a>
-										<a href="#slide-2">2</a>
-										<a href="#slide-3">3</a>
-										<a href="#slide-4">4</a>
-										<a href="#slide-5">5</a>
-										<a href="#slide-6">6</a>
+										<a href="#slide-1" id="box1">&nbsp;</a>
+										<a href="#slide-2" id="box2">&nbsp;</a>
+										<a href="#slide-3" id="box3">&nbsp;</a>
+										<a href="#slide-4" id="box4">&nbsp;</a>
+										<a href="#slide-5" id="box5">&nbsp;</a>
+										<a href="#slide-6" id="box6">&nbsp;</a>
 									</div>
 								</div>
 							</div>
@@ -1400,6 +1399,7 @@
 			const q1Options = document.querySelectorAll('#q1_options .q1-option');
 			const q1FeedbackDiv = document.getElementById('q1_feedback');
 			const q1CorrectAnswer = "Twister";
+			const box1 = document.getElementById('box1');
 
 			q1Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1414,7 +1414,9 @@
 
 					if (selectedAnswer === q1CorrectAnswer) {
 						label.classList.add('correct');
+						box1.style.backgroundColor = 'green';
 					} else {
+						box1.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						q1Options.forEach(opt => {
 							if (opt.dataset.answer === q1CorrectAnswer) {
@@ -1430,6 +1432,7 @@
 			const q2Options = document.querySelectorAll('#q2_options .q2-option');
 			const q2FeedbackDiv = document.getElementById('q2_feedback');
 			const q2CorrectAnswer = "Pathos";
+			const box2 = document.getElementById('box2');
 
 			q2Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1442,7 +1445,9 @@
 
 					if (selectedAnswer === q2CorrectAnswer) {
 						label.classList.add('correct');
+						box2.style.backgroundColor = 'green';
 					} else {
+						box2.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						q2Options.forEach(opt => {
 							if (opt.dataset.answer === q2CorrectAnswer) {
@@ -1458,6 +1463,7 @@
 			const q3Options = document.querySelectorAll('#q3_options .q3-option');
 			const q3FeedbackDiv = document.getElementById('q3_feedback');
 			const q3CorrectAnswer = "Opinions, Rumors";
+			const box3 = document.getElementById('box3');
 
 			q3Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1470,7 +1476,9 @@
 
 					if (selectedAnswer === q3CorrectAnswer) {
 						label.classList.add('correct');
+						box3.style.backgroundColor = 'green';
 					} else {
+						box3.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						q3Options.forEach(opt => {
 							if (opt.dataset.answer === q3CorrectAnswer) {
@@ -1488,6 +1496,7 @@
 			const q4Options = document.querySelectorAll('#q4_options .q4-option');
 			const q4FeedbackDiv = document.getElementById('q4_feedback');
 			const q4CorrectAnswer = "Backing";
+			const box4 = document.getElementById('box4');
 
 			q4Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1500,7 +1509,9 @@
 
 					if (selectedAnswer === q4CorrectAnswer) {
 						label.classList.add('correct');
+						box4.style.backgroundColor = 'green';
 					} else {
+						box4.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						q4Options.forEach(opt => {
 							if (opt.dataset.answer === q4CorrectAnswer) {
@@ -1516,6 +1527,7 @@
 			const q5Options = document.querySelectorAll('#q5_options .q5-option');
 			const q5FeedbackDiv = document.getElementById('q5_feedback');
 			const q5CorrectAnswer = "Red herring";
+			const box5 = document.getElementById('box5');
 
 			q5Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1528,7 +1540,9 @@
 
 					if (selectedAnswer === q5CorrectAnswer) {
 						label.classList.add('correct');
+						box5.style.backgroundColor = 'green';
 					} else {
+						box5.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						q5Options.forEach(opt => {
 							if (opt.dataset.answer === q5CorrectAnswer) {
@@ -1544,6 +1558,7 @@
 			const q6Options = document.querySelectorAll('#q6_options .q6-option');
 			const q6FeedbackDiv = document.getElementById('q6_feedback');
 			const q6CorrectAnswer = "All of them"; // Define the correct answer
+			const box6 = document.getElementById('box6');
 
 			q6Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1557,7 +1572,9 @@
 
 					if (selectedAnswer === q6CorrectAnswer) {
 						label.classList.add('correct');
+						box6.style.backgroundColor = 'green';
 					} else {
+						box6.style.backgroundColor = 'red';
 						label.classList.add('incorrect');
 						// Highlight the correct answer if the wrong one was chosen
 						q6Options.forEach(opt => {
