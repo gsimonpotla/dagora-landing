@@ -142,11 +142,8 @@
     try {
         app = firebase.initializeApp(firebaseConfig);
         console.log("Firebase Initialized");
-        showMessage("Firebase initialized successfully.", "success");
     } catch (error) {
         console.error("Error initializing Firebase:", error);
-        document.getElementById("responseArea").textContent = `Error initializing Firebase: ${error.message}`;
-        showMessage(`Error initializing Firebase: ${error.message}`, "error");
     }
 
     // Initialize Firebase App Check
@@ -159,16 +156,14 @@
                 true // activate even if token is not immediately available
             );
             console.log("Firebase App Check Activated with reCAPTCHA v3");
-            showMessage("App Check activated.", "info");
         } catch (error) {
             console.error("Error initializing Firebase App Check:", error);
-            document.getElementById("responseArea").textContent = `Error initializing App Check: ${error.message}`;
-            showMessage(`Error initializing App Check: ${error.message}`, "error");
         }
     }
 
     // Get a reference to Firebase Functions
     const functions = app ? firebase.functions(/* functionRegion */) : null; // Pass region if needed
+
 </script>
 
 
