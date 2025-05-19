@@ -197,6 +197,8 @@
         const messageText = document.getElementById('message').value; // Textarea id is 'message'
         const submitBtn = form.querySelector('input[type="submit"]');
 
+        console.error('message: ', messageText); // For debugging
+
         // Disable the button and show loading state
         if (submitBtn) {
             submitBtn.disabled = true;
@@ -205,6 +207,13 @@
         messageEl.textContent = ''; // Clear previous messages
 
         try {
+            console.log('Sending contact form data:', {
+                name,
+                email,
+                subject,
+                message: messageText,
+                recaptchaToken
+            });
             // Call the Cloud Function
             // The App Check token is automatically included by the Firebase SDK
             const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
@@ -215,6 +224,8 @@
                 message: messageText,
                 source: 'contact_form_page'
             });
+
+            console.log('Function result:', result);
 
             // Show success/failure message
             if (result.data && result.data.message) {
