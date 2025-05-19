@@ -112,8 +112,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-check-compat.js"></script>
     <!-- Add App Check SDK -->
-    <script
-        src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1" async defer></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1" async
+        defer></script>
 </head>
 
 
@@ -132,89 +132,120 @@
 
         // Initialize App Check
         const appCheck = firebase.appCheck();
-        try {
-            console.log('[DEBUG] Before App Check activation, window.grecaptcha:', window.grecaptcha);
-            if (window.grecaptcha) {
-                console.log('[DEBUG] typeof window.grecaptcha.ready:', typeof window.grecaptcha.ready);
-                console.log('[DEBUG] typeof window.grecaptcha.execute:', typeof window.grecaptcha.execute);
-            }
+        appCheck.activate(
+            '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
+            true // auto-refresh token
+        );
 
-            const provider = new firebase.appCheck.ReCaptchaV3Provider('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1');
-            appCheck.activate(provider, true);
-            console.log('App Check activated. Token auto-refresh is enabled.');
-        } catch (e) {
-            console.error('Error during App Check activation:', e);
+        const contactForm = document.getElementById('contactForm');
+        const messageEl = document.getElementById('formMessage');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
+                    console.error('reCAPTCHA script not loaded');
+                    if (messageEl) {
+                        messageEl.textContent = 'Error: reCAPTCHA not loaded. Please try again later.';
+                        messageEl.style.color = 'red';
+                    }
+                    return;
+                }
+
+                grecaptcha.enterprise.ready(async () => {
+                    try {
+                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', {action: 'submit_contact_form'});
+                        await handleFormSubmission(recaptchaToken);
+                    } catch (error) {
+                        console.error('reCAPTCHA execution error:', error);
+                        if (messageEl) {
+                            messageEl.textContent = 'Failed to verify reCAPTCHA. Please try again.';
+                            messageEl.style.color = 'red';
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+    async function handleFormSubmission(recaptchaToken) { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
+        // console.log('reCAPTCHA token:', recaptchaToken); // For debugging
+
+        const form = document.getElementById('contactForm');
+        const messageEl = document.getElementById('formMessage');
+
+        if (!form || !messageEl) {
+            console.error('Form or message element not found.');
+            return;
         }
 
-        // Sign in anonymously - ensure this is called after App Check is activated if functions depend on it.
-        // For contact form submission, anonymous auth might not be strictly needed if App Check protects the function.
-        // However, if you have other rules or logic relying on auth, keep it.
-        firebase.auth().signInAnonymously().catch(error => {
+        // Sign in anonymously - App Check works with anonymous or authenticated users.
+        // This is needed if your callable function's security rules require some form of auth.
+        try {
+            await firebase.auth().signInAnonymously();
+        } catch (error) {
             console.error('Authentication error:', error);
-        });
+            messageEl.textContent = 'Authentication failed. Please try again.';
+            messageEl.style.color = 'red';
+            return; // Stop if auth fails
+        }
 
-        const form = document.querySelector('form[action="#"]');
-        const message = document.createElement('div');
-        message.id = 'form-message';
-        form.parentNode.insertBefore(message, form.nextSibling);
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        const messageText = document.getElementById('message').value; // Textarea id is 'message'
+        const submitBtn = form.querySelector('input[type="submit"]');
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Disable the button and show loading state
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.value = 'Sending...';
+        }
+        messageEl.textContent = ''; // Clear previous messages
 
-            grecaptcha.enterprise.ready(async () => {
-                const token = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'LOGIN' });
-
-                // Sign in anonymously
-                firebase.auth().signInAnonymously().catch(error => {
-                    console.error('Authentication error:', error);
-                });
-
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const subject = document.getElementById('subject').value;
-                const messageText = document.getElementById('message').value;
-                const submitBtn = form.querySelector('input[type="submit"]');
-
-                // Disable the button and show loading state
-                submitBtn.disabled = true;
-                submitBtn.value = 'Sending...';
-                message.textContent = '';
-
-                try {
-                    // Call the Cloud Function
-                    const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
-                    const result = await sendContactForm({
-                        name,
-                        email,
-                        subject,
-                        message: messageText,
-                        source: 'contact_form_page'
-                    });
-
-                    // Show success message
-                    message.textContent = result.data.message;
-                    message.style.color = 'green';
-
-                    // Reset form on success
-                    if (result.data.success) {
-                        form.reset();
-                    }
-                } catch (error) {
-                    // Show error message
-                    // Check if error has a message property, otherwise provide a generic one.
-                    // Firebase callable functions errors often have a 'message' property.
-                    const errorMessage = error.message || 'Something went wrong. Please try again.';
-                    message.textContent = errorMessage;
-                    message.style.color = 'red';
-                    console.error('Submission error:', error);
-                } finally {
-                    // Re-enable the button
-                    submitBtn.disabled = false;
-                    submitBtn.value = 'Send Message';
-                }
+        try {
+            // Call the Cloud Function
+            // The App Check token is automatically included by the Firebase SDK
+            const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
+            const result = await sendContactForm({
+                name,
+                email,
+                subject,
+                message: messageText,
+                source: 'contact_form_page'
             });
-        });
-    });
+
+            // Show success/failure message
+            if (result.data && result.data.message) {
+                messageEl.textContent = result.data.message;
+                messageEl.style.color = result.data.success ? 'green' : 'red';
+            } else {
+                messageEl.textContent = 'Unexpected response from server.';
+                messageEl.style.color = 'red';
+            }
+
+            // Reset form on success
+            if (result.data && result.data.success) {
+                form.reset();
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            let errorMessage = error.message || 'Something went wrong. Please try again.';
+            // You might want to check error.code for specific App Check failures, e.g., 'functions/unauthenticated'
+            // if (error.code === 'functions/unauthenticated') {
+            //     errorMessage = "App Check failed: Your request could not be verified. Please try again.";
+            // }
+            messageEl.textContent = errorMessage;
+            messageEl.style.color = 'red';
+        } finally {
+            // Re-enable the button
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.value = 'Send Message';
+            }
+        }
+    }
 </script>
 
 <body class="is-boxed has-animations">
@@ -238,9 +269,9 @@
             <section class="contact-form-section">
                 <div class="contact-form-container">
                     <h1>Contact Us</h1>
-                    <form action="#" method="POST">
+                    <form id="contactForm" action="#" method="POST"> <!-- Added id="contactForm" -->
                         <div class="form-group">
-                            <label for="name">Full Name</label>
+                            <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
                         </div>
                         <div class="form-group">
@@ -259,6 +290,7 @@
                             <input type="submit" value="Send Message">
                         </div>
                     </form>
+                    <div id="formMessage" style="margin-top: 15px; text-align: center; min-height: 1.2em;"></div> <!-- Added for messages -->
                     <div class="footer-link" style="text-align: left;font-size: 1.1em;">
                         <p><a href="index.html">&larr; Back to Home</a></p>
                     </div>
