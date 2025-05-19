@@ -204,44 +204,54 @@
 	}
 
 	/* Quiz answer styling */
-	.q1-option .result-indicator {
+	.q1-option .result-indicator,
+	.q2-option .result-indicator {
 		margin-left: 8px;
 		font-weight: bold;
 	}
 
-	.q1-option.correct > .result-indicator::after {
+	.q1-option.correct > .result-indicator::after,
+	.q2-option.correct > .result-indicator::after {
 		content: ' ✔';
 		color: green;
 	}
 
-	.q1-option.incorrect > .result-indicator::after {
+	.q1-option.incorrect > .result-indicator::after,
+	.q2-option.incorrect > .result-indicator::after {
 		content: ' ✖';
 		color: red;
 	}
 
-	.q1-option.correct {
+	.q1-option.correct,
+	.q2-option.correct {
 		color: green !important;
 	}
 
-	.q1-option.incorrect {
+	.q1-option.incorrect,
+	.q2-option.incorrect {
 		color: red !important;
 	}
 
-	.q1-option.correct .checkmark {
+	.q1-option.correct .checkmark,
+	.q2-option.correct .checkmark {
 		background-color: #e8f5e9; /* Lighter green */
 		border: 1px solid green;
 	}
-	.q1-option.incorrect .checkmark {
+	.q1-option.incorrect .checkmark,
+	.q2-option.incorrect .checkmark {
 		background-color: #ffebee; /* Lighter red */
 		border: 1px solid red;
 	}
 
 	.q1-option.correct .checkmark:after,
-	.q1-option.incorrect .checkmark:after {
+	.q1-option.incorrect .checkmark:after,
+	.q2-option.correct .checkmark:after,
+	.q2-option.incorrect .checkmark:after {
 		display: none; /* Hide original checkmark indicator inside box after selection */
 	}
 
-	.q1-option input[type="checkbox"] {
+	.q1-option input[type="checkbox"],
+	.q2-option input[type="checkbox"] {
 		position: absolute;
 		opacity: 0;
 		cursor: pointer;
@@ -616,19 +626,31 @@
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Ethos
-																	<input type="checkbox">
+															<div id="q2_options">
+																<label class="container q2-option" data-answer="Ethos">Ethos
+																	<input type="checkbox" name="q2_answer_cb" value="Ethos">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Logos
-																	<input type="checkbox">
+																<label class="container q2-option" data-answer="Logos">Logos
+																	<input type="checkbox" name="q2_answer_cb" value="Logos">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Pathos
-																	<input type="checkbox">
+																<label class="container q2-option" data-answer="Pathos">Pathos
+																	<input type="checkbox" name="q2_answer_cb" value="Pathos">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<span style="font-size: 12px;">🌐 &nbsp;<a
+																	href="https://www.youtube.com/watch?v=3rlbm53n_6A">Aristotle's Three Modes of Persuasion</a></span>
+															<div id="q2_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
+																<!-- You can add a specific link for Q2 feedback here if needed -->
 															</div>
 														</td>
 													</tr>
@@ -1232,7 +1254,6 @@
 					// Disable all checkboxes in this group once an answer is made
 					document.querySelectorAll('#q1_options input[type="checkbox"]').forEach(cb => {
 						cb.disabled = true;
-						// Also make the label look disabled or non-interactive if desired
 						// cb.parentElement.style.cursor = 'default';
 					});
 
@@ -1242,7 +1263,6 @@
 						label.classList.add('correct');
 					} else {
 						label.classList.add('incorrect');
-						// Highlight the correct answer if a wrong one was chosen
 						q1Options.forEach(opt => {
 							if (opt.dataset.answer === q1CorrectAnswer) {
 								opt.classList.add('correct');
@@ -1253,11 +1273,39 @@
 				});
 			});
 
-			// If you have more questions (slide-2, slide-3, etc.) that need similar logic,
+			// Quiz logic for Question 2 (slide-2)
+			const q2Options = document.querySelectorAll('#q2_options .q2-option');
+			const q2FeedbackDiv = document.getElementById('q2_feedback');
+			const q2CorrectAnswer = "Pathos";
+
+			q2Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function() {
+					document.querySelectorAll('#q2_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q2CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						q2Options.forEach(opt => {
+							if (opt.dataset.answer === q2CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					q2FeedbackDiv.style.display = 'block'; // Show feedback div for Q2
+				});
+			});
+
+			// If you have more questions (slide-3, etc.) that need similar logic,
 			// you would replicate the above structure for each:
-			// const q2Options = document.querySelectorAll('#q2_options .q2-option');
-			// const q2FeedbackDiv = document.getElementById('q2_feedback');
-			// const q2CorrectAnswer = "CorrectAnswerForQ2";
+			// const q3Options = document.querySelectorAll('#q3_options .q3-option');
+			// const q3FeedbackDiv = document.getElementById('q3_feedback');
+			// const q3CorrectAnswer = "CorrectAnswerForQ3";
 			// ... and so on.
 		});
 	</script>
