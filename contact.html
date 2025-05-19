@@ -118,29 +118,30 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
-            authDomain: "dagora.app",
-            projectId: "dagora-ed398",
-            storageBucket: "dagora-ed398.appspot.com",
-            messagingSenderId: "437561736837",
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        // Initialize App Check
-        const appCheck = firebase.appCheck();
-        appCheck.activate(
-            '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
-            true // auto-refresh token
-        );
-
         const contactForm = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
 
         if (contactForm) {
             contactForm.addEventListener('submit', function (event) {
                 event.preventDefault();
+
+                // Initialize Firebase
+                const firebaseConfig = {
+                    apiKey: "AIzaSyCoKfb_YPjR_rLlJVJHV3iwpprsOvojpOU",
+                    authDomain: "dagora.app",
+                    projectId: "dagora-ed398",
+                    storageBucket: "dagora-ed398.appspot.com",
+                    messagingSenderId: "437561736837",
+                };
+                firebase.initializeApp(firebaseConfig);
+
+                // Initialize App Check
+                const appCheck = firebase.appCheck();
+                appCheck.activate(
+                    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
+                    true // auto-refresh token
+                );
+
 
                 if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
                     console.error('reCAPTCHA script not loaded');
