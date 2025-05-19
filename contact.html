@@ -130,13 +130,6 @@
         const recaptchaV3SiteKey = "6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1";
         // --- END: App Check Configuration ---
 
-        // --- START: Cloud Function Configuration ---
-        // IMPORTANT: Replace with your callable function's name.
-        const functionName = "sendContactForm";
-        // Optional: If your function is not in 'us-central1', specify the region.
-        // const functionRegion = "your-function-region"; // e.g., "europe-west1"
-        // --- END: Cloud Function Configuration ---
-
 
         // Initialize Firebase
         let app;
@@ -243,6 +236,15 @@
             // }
             messageEl.textContent = errorMessage;
             messageEl.style.color = 'red';
+        } catch (e) {
+            console.error('Error:', e);
+            messageEl.textContent = 'Error. Please try again.';
+            messageEl.style.color = 'red';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.value = 'Send Message';
+            }
+            return; // Stop further execution
         } finally {
             // Re-enable the button
             if (submitBtn) {
