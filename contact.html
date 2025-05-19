@@ -148,16 +148,7 @@
                     true // auto-refresh token
                 );
 
-
-                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
-                    console.error('reCAPTCHA script not loaded');
-                    if (messageEl) {
-                        messageEl.textContent = 'Error: reCAPTCHA not loaded. Please try again later.';
-                        messageEl.style.color = 'red';
-                    }
-                    return;
-                }
-
+                console.log("captcha removed")
                 handleFormSubmission()
             });
         }
@@ -206,8 +197,7 @@
                 name,
                 email,
                 subject,
-                message: messageText,
-                recaptchaToken
+                message: messageText
             });
 
             // --- Start Debugging ---
