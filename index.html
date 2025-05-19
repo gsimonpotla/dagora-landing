@@ -69,12 +69,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 100px;
 	}
 
-	.slides>div:target {
+	/* .slides>div:target {
 		/*   transform: scale(0.8); */
-	}
+	/* } */
 
 	.author-info {
 		background: rgba(0, 0, 0, 0.75);
@@ -123,9 +122,9 @@
 
 	/* Don't need button navigation */
 	@supports (scroll-snap-type) {
-		.slider>a {
-			display: none;
-		}
+		/* .slider>a { */
+			/* display: none; */
+		/* } */
 	}
 
 	.container {
@@ -258,7 +257,6 @@
 	.q5-option.correct .checkmark,
 	.q6-option.correct .checkmark {
 		background-color: #e8f5e9; /* Lighter green */
-		border: 1px solid green;
 	}
 	.q1-option.incorrect .checkmark,
 	.q2-option.incorrect .checkmark,
@@ -267,7 +265,6 @@
 	.q5-option.incorrect .checkmark,
 	.q6-option.incorrect .checkmark {
 		background-color: #ffebee; /* Lighter red */
-		border: 1px solid red;
 	}
 
 	.q1-option.correct .checkmark:after,
@@ -296,6 +293,10 @@
 		cursor: pointer;
 		height: 0;
 		width: 0;
+	}
+
+	.current-slide-nav-active {
+		box-shadow: 0px -4px #3880ff;
 	}
 </style>
 
@@ -779,14 +780,6 @@
 															</div>
 														</td>
 													</tr>
-													<tr>
-														<td>
-															<div id="q3_feedback"
-																style="display:none; font-size: 12px; margin-top: 10px;">
-																<!-- You can add a specific link for Q3 feedback here if needed -->
-															</div>
-														</td>
-													</tr>
 												</table>
 											</div>
 											<div id="slide-4">
@@ -850,14 +843,6 @@
 															</div>
 														</td>
 													</tr>
-													<tr>
-														<td>
-															<div id="q4_feedback"
-																style="display:none; font-size: 12px; margin-top: 10px;">
-																<!-- You can add a specific link for Q4 feedback here if needed -->
-															</div>
-														</td>
-													</tr>
 												</table>
 											</div>
 											<div id="slide-5">
@@ -872,8 +857,7 @@
 														<td>
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
-																Which <span style="font-weight: 800;">fallacy</span> has
-																been used?
+																What <span style="font-weight: 800;">logical fallacy</span> did Harris commit  uring 2024 US Presidential Debate against Trump, when she shifted the discussion away from asylum restrictions to a different bill and Trump’s rallies?
 															</div>
 														</td>
 													</tr>
@@ -926,14 +910,6 @@
 															</div>
 														</td>
 													</tr>
-													<tr>
-														<td>
-															<div id="q5_feedback"
-																style="display:none; font-size: 12px; margin-top: 10px;">
-																<!-- You can add a specific link for Q5 feedback here if needed -->
-															</div>
-														</td>
-													</tr>
 												</table>
 											</div>
 											<div id="slide-6">
@@ -949,7 +925,7 @@
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
 																Which <span style="font-weight: 800;">cognitive
-																	bias</span> has been used?
+																	bias</span> has been used by Elon Musk in his post "You are the media now!"?
 															</div>
 														</td>
 													</tr>
@@ -984,18 +960,11 @@
 															</div>
 														</td>
 													</tr>
-													<tr>
-														<td>
-															<div id="q6_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
-																<!-- You can add a specific link for Q6 feedback here if needed -->
-															</div>
-														</td>
-													</tr>
 												</table>
 											</div>
 										</div>
 										
-										<a href="#slide-1" id="box1">&nbsp;</a>
+										<a href="#slide-1" id="box1" style="margin-top: 20px;">&nbsp;</a>
 										<a href="#slide-2" id="box2">&nbsp;</a>
 										<a href="#slide-3" id="box3">&nbsp;</a>
 										<a href="#slide-4" id="box4">&nbsp;</a>
@@ -1594,6 +1563,35 @@
 			// const q3FeedbackDiv = document.getElementById('q3_feedback');
 			// const q3CorrectAnswer = "CorrectAnswerForQ3";
 			// ... and so on.
+
+			// Slider navigation active state
+			const slideNavigationLinks = document.querySelectorAll('.slider > a[id^="box"]');
+
+			function updateActiveSlideNav() {
+				const currentHash = window.location.hash;
+				slideNavigationLinks.forEach(link => {
+					if (link.getAttribute('href') === currentHash) {
+						link.classList.add('current-slide-nav-active');
+					} else {
+						link.classList.remove('current-slide-nav-active');
+					}
+				});
+			}
+
+			// Set initial active state
+			if (window.location.hash) {
+				updateActiveSlideNav();
+			} else {
+				// If no hash is present (e.g., on initial page load at the root),
+				// activate the first slide's navigation link by default.
+				const firstSlideLink = document.querySelector('.slider > a[href="#slide-1"]');
+				if (firstSlideLink) {
+					firstSlideLink.classList.add('current-slide-nav-active');
+				}
+			}
+
+			// Update active state on hash change
+			window.addEventListener('hashchange', updateActiveSlideNav);
 		});
 	</script>
 </body>
