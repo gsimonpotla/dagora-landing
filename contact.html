@@ -141,7 +141,7 @@
         const messageEl = document.getElementById('formMessage');
 
         if (contactForm) {
-            contactForm.addEventListener('submit', function(event) {
+            contactForm.addEventListener('submit', function (event) {
                 event.preventDefault();
 
                 if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
@@ -155,7 +155,7 @@
 
                 grecaptcha.enterprise.ready(async () => {
                     try {
-                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', {action: 'submit_contact_form'});
+                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'submit_contact_form' });
                         await handleFormSubmission(recaptchaToken);
                     } catch (error) {
                         console.error('reCAPTCHA execution error:', error);
@@ -206,6 +206,7 @@
         }
         messageEl.textContent = ''; // Clear previous messages
 
+        // ...existing code...
         try {
             console.log('Sending contact form data:', {
                 name,
@@ -214,11 +215,48 @@
                 message: messageText,
                 recaptchaToken
             });
-            // Call the Cloud Function
-            // The App Check token is automatically included by the Firebase SDK
-            const sendContactForm = firebase.functions().httpsCallable('sendContactForm');
-            console.log('sendContactForm function:', sendContactForm);
-            const result = await sendContactForm({
+
+            // --- Start Debugging ---
+            if (typeof firebase.functions !== 'function') {
+                console.error('Error: firebase.functions is not a function! Make sure the Firebase Functions SDK is loaded and initialized.');
+                messageEl.textContent = 'Error: Firebase Functions not available.';
+                messageEl.style.color = 'red';
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Send Message';
+                }
+                return; // Stop further execution
+            }
+            console.log('firebase.functions is available:', firebase.functions());
+
+            let sendContactFormCallable;
+            try {
+                sendContactFormCallable = firebase.functions().httpsCallable('sendContactForm');
+            } catch (e) {
+                console.error('Error creating callable function:', e);
+                messageEl.textContent = 'Error setting up the call. Please try again.';
+                messageEl.style.color = 'red';
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Send Message';
+                }
+                return; // Stop further execution
+            }
+
+            if (typeof sendContactFormCallable !== 'function') {
+                console.error('Error: httpsCallable did not return a function. Result:', sendContactFormCallable);
+                messageEl.textContent = 'Error: Could not prepare the function call.';
+                messageEl.style.color = 'red';
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Send Message';
+                }
+                return; // Stop further execution
+            }
+            console.log('sendContactForm callable function object:', sendContactFormCallable);
+            // --- End Debugging ---
+
+            const result = await sendContactFormCallable({ // Use the checked variable
                 name,
                 email,
                 subject,
@@ -227,21 +265,7 @@
             });
 
             console.log('Function result:', result);
-
-            // Show success/failure message
-            if (result.data && result.data.message) {
-                messageEl.textContent = result.data.message;
-                messageEl.style.color = result.data.success ? 'green' : 'red';
-            } else {
-                messageEl.textContent = 'Unexpected response from server.';
-                messageEl.style.color = 'red';
-            }
-
-            // Reset form on success
-            if (result.data && result.data.success) {
-                form.reset();
-            }
-        } catch (error) {
+            // ...existing code... catch (error) {
             console.error('Submission error:', error);
             let errorMessage = error.message || 'Something went wrong. Please try again.';
             // You might want to check error.code for specific App Check failures, e.g., 'functions/unauthenticated'
@@ -302,7 +326,8 @@
                             <input type="submit" value="Send Message">
                         </div>
                     </form>
-                    <div id="formMessage" style="margin-top: 15px; text-align: center; min-height: 1.2em;"></div> <!-- Added for messages -->
+                    <div id="formMessage" style="margin-top: 15px; text-align: center; min-height: 1.2em;"></div>
+                    <!-- Added for messages -->
                     <div class="footer-link" style="text-align: left;font-size: 1.1em;">
                         <p><a href="index.html">&larr; Back to Home</a></p>
                     </div>
