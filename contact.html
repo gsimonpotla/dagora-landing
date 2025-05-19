@@ -123,13 +123,7 @@
 
         if (contactForm) {
             contactForm.addEventListener('submit', function (event) {
-                try {
-                    console.log('Form submit event listener triggered.');
-                    event.preventDefault();
-                    console.log('Default form submission prevented.');
-                } catch (error) {
-                    console.error('Error in form submission:', error);
-                }
+                event.preventDefault();
 
                 // Initialize Firebase
                 const firebaseConfig = {
@@ -142,20 +136,40 @@
                 firebase.initializeApp(firebaseConfig);
 
                 // Initialize App Check
-                const appCheck = firebase.appCheck();
-                appCheck.activate(
-                    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
-                    true // auto-refresh token
-                );
+                //const appCheck = firebase.appCheck();
+                //appCheck.activate(
+                //    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
+                //    true // auto-refresh token
+                //);
 
-                console.log("captcha removed")
-                handleFormSubmission()
+
+                if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
+                    console.error('reCAPTCHA script not loaded');
+                    if (messageEl) {
+                        messageEl.textContent = 'Error: reCAPTCHA not loaded. Please try again later.';
+                        messageEl.style.color = 'red';
+                    }
+                    return;
+                }
+
+                grecaptcha.enterprise.ready(async () => {
+                    try {
+                        const recaptchaToken = await grecaptcha.enterprise.execute('6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', { action: 'submit_contact_form' });
+                        await handleFormSubmission(recaptchaToken);
+                    } catch (error) {
+                        console.error('reCAPTCHA execution error:', error);
+                        if (messageEl) {
+                            messageEl.textContent = 'Failed to verify reCAPTCHA. Please try again.';
+                            messageEl.style.color = 'red';
+                        }
+                    }
+                });
             });
         }
     });
 
-    async function handleFormSubmission() { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
-        //console.log('reCAPTCHA token:', recaptchaToken); // For debugging
+    async function handleFormSubmission(recaptchaToken) { // Renamed from onSubmit, recaptchaToken is for AppCheck's use
+        console.log('reCAPTCHA token:', recaptchaToken); // For debugging
 
         const form = document.getElementById('contactForm');
         const messageEl = document.getElementById('formMessage');
@@ -197,7 +211,8 @@
                 name,
                 email,
                 subject,
-                message: messageText
+                message: messageText,
+                recaptchaToken
             });
 
             // --- Start Debugging ---
