@@ -202,6 +202,52 @@
 		font-size: 0.9em;
 		padding-top: 10px;
 	}
+
+	/* Quiz answer styling */
+	.q1-option .result-indicator {
+		margin-left: 8px;
+		font-weight: bold;
+	}
+
+	.q1-option.correct > .result-indicator::after {
+		content: ' ✔';
+		color: green;
+	}
+
+	.q1-option.incorrect > .result-indicator::after {
+		content: ' ✖';
+		color: red;
+	}
+
+	.q1-option.correct {
+		color: green !important;
+	}
+
+	.q1-option.incorrect {
+		color: red !important;
+	}
+
+	.q1-option.correct .checkmark {
+		background-color: #e8f5e9; /* Lighter green */
+		border: 1px solid green;
+	}
+	.q1-option.incorrect .checkmark {
+		background-color: #ffebee; /* Lighter red */
+		border: 1px solid red;
+	}
+
+	.q1-option.correct .checkmark:after,
+	.q1-option.incorrect .checkmark:after {
+		display: none; /* Hide original checkmark indicator inside box after selection */
+	}
+
+	.q1-option input[type="checkbox"] {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
 </style>
 
 <body class="is-boxed has-animations">
@@ -489,13 +535,6 @@
 							<div class="feature is-revealing" style="padding: 16px 10px;">
 								<div class="feature-inner">
 									<div class="slider">
-										<a href="#slide-1">1</a>
-										<a href="#slide-2">2</a>
-										<a href="#slide-3">3</a>
-										<a href="#slide-4">4</a>
-										<a href="#slide-5">5</a>
-										<a href="#slide-6">6</a>
-
 										<div class="slides">
 											<div id="slide-1">
 												<table style="margin: 6px;color: midnightblue;">
@@ -510,35 +549,37 @@
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
 																Which <span style="font-weight: 800;">debate bully
-																	strategies</span> have been used by Trump
-																during
-																US
-																presidential debate against Biden?
+																	strategy</span> did Trump used during US presidential debate against Biden, when he claimed that Biden wanted to quadruple taxes?
 															</div>
 														</td>
 													</tr>
 													<tr>
 														<td>
-															<div>
-																<label class="container">Dodger
-																	<input type="checkbox">
+															<div id="q1_options">
+																<label class="container q1-option" data-answer="Dodger">Dodger
+																	<input type="checkbox" name="q1_answer_cb" value="Dodger">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Twister
-																	<input type="checkbox">
+																<label class="container q1-option" data-answer="Twister">Twister
+																	<input type="checkbox" name="q1_answer_cb" value="Twister">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Wrangler
-																	<input type="checkbox">
+																<label class="container q1-option" data-answer="Wrangler">Wrangler
+																	<input type="checkbox" name="q1_answer_cb" value="Wrangler">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Liar
-																	<input type="checkbox">
+																<label class="container q1-option" data-answer="Liar">Liar
+																	<input type="checkbox" name="q1_answer_cb" value="Liar">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
-																<label class="container">Brawler
-																	<input type="checkbox">
+																<label class="container q1-option" data-answer="Brawler">Brawler
+																	<input type="checkbox" name="q1_answer_cb" value="Brawler">
 																	<span class="checkmark"></span>
+																	<span class="result-indicator"></span>
 																</label>
 															</div>
 														</td>
@@ -548,6 +589,9 @@
 															<span style="font-size: 12px;">🌐 &nbsp;<a
 																	href="https://www.youtube.com/watch?v=tZw0-ap7buo">Bo
 																	Seo - Debate Bullies</a></span>
+															<div id="q1_feedback" style="display:none; font-size: 12px; margin-top: 10px;">
+																<a href="https://factcheck.afp.com/doc.afp.com.34ZM8LF" target="_blank" style="color: #1976D2;">Fact check: Trump falsely claimed Biden wanted to quadruple taxes</a>
+															</div>
 														</td>
 													</tr>
 												</table>
@@ -776,6 +820,13 @@
 												</table>
 											</div>
 										</div>
+										
+										<a href="#slide-1">1</a>
+										<a href="#slide-2">2</a>
+										<a href="#slide-3">3</a>
+										<a href="#slide-4">4</a>
+										<a href="#slide-5">5</a>
+										<a href="#slide-6">6</a>
 									</div>
 								</div>
 							</div>
@@ -1168,6 +1219,48 @@
 	</div>
 
 	<script src="dist/js/main.min.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			// Quiz logic for Question 1 (slide-1)
+			const q1Options = document.querySelectorAll('#q1_options .q1-option');
+			const q1FeedbackDiv = document.getElementById('q1_feedback');
+			const q1CorrectAnswer = "Twister";
+
+			q1Options.forEach(label => {
+				const checkbox = label.querySelector('input[type="checkbox"]');
+				checkbox.addEventListener('click', function() {
+					// Disable all checkboxes in this group once an answer is made
+					document.querySelectorAll('#q1_options input[type="checkbox"]').forEach(cb => {
+						cb.disabled = true;
+						// Also make the label look disabled or non-interactive if desired
+						// cb.parentElement.style.cursor = 'default';
+					});
+
+					const selectedAnswer = label.dataset.answer;
+
+					if (selectedAnswer === q1CorrectAnswer) {
+						label.classList.add('correct');
+					} else {
+						label.classList.add('incorrect');
+						// Highlight the correct answer if a wrong one was chosen
+						q1Options.forEach(opt => {
+							if (opt.dataset.answer === q1CorrectAnswer) {
+								opt.classList.add('correct');
+							}
+						});
+					}
+					q1FeedbackDiv.style.display = 'block';
+				});
+			});
+
+			// If you have more questions (slide-2, slide-3, etc.) that need similar logic,
+			// you would replicate the above structure for each:
+			// const q2Options = document.querySelectorAll('#q2_options .q2-option');
+			// const q2FeedbackDiv = document.getElementById('q2_feedback');
+			// const q2CorrectAnswer = "CorrectAnswerForQ2";
+			// ... and so on.
+		});
+	</script>
 </body>
 
 </html>
