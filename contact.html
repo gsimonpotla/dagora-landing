@@ -136,11 +136,11 @@
                 firebase.initializeApp(firebaseConfig);
 
                 // Initialize App Check
-                //const appCheck = firebase.appCheck();
-                //appCheck.activate(
-                //    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
-                //    true // auto-refresh token
-                //);
+                const appCheck = firebase.appCheck();
+                appCheck.activate(
+                    '6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1', // Your reCAPTCHA Enterprise site key
+                    true // auto-refresh token
+                );
 
 
                 if (typeof grecaptcha === 'undefined' || typeof grecaptcha.enterprise === 'undefined') {
