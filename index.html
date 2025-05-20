@@ -123,7 +123,7 @@
 	/* Don't need button navigation */
 	@supports (scroll-snap-type) {
 		/* .slider>a { */
-			/* display: none; */
+		/* display: none; */
 		/* } */
 	}
 
@@ -212,22 +212,23 @@
 		font-weight: bold;
 	}
 
-	.q1-option.correct > .result-indicator::after,
-	.q2-option.correct > .result-indicator::after,
-	.q3-option.correct > .result-indicator::after,
-	.q4-option.correct > .result-indicator::after,
-	.q5-option.correct > .result-indicator::after,
-	.q6-option.correct > .result-indicator::after {
+	.q1-option.correct>.result-indicator::after,
+	.q2-option.correct>.result-indicator::after,
+	.q3-option.correct>.result-indicator::after,
+	.q4-option.correct>.result-indicator::after,
+	.q5-option.correct>.result-indicator::after,
+	.q6-option.correct>.result-indicator::after {
 		content: ' ✔';
 		color: green;
 	}
 
-	.q1-option.incorrect > .result-indicator::after,
-	.q2-option.incorrect > .result-indicator::after,
-	.q3-option.incorrect > .result-indicator::after,
-	.q4-option.incorrect > .result-indicator::after,
-	.q5-option.incorrect > .result-indicator::after,
-	.q6-option.incorrect > .result-indicator::after { /* Though Q6 won't use .incorrect styling for the chosen answer */
+	.q1-option.incorrect>.result-indicator::after,
+	.q2-option.incorrect>.result-indicator::after,
+	.q3-option.incorrect>.result-indicator::after,
+	.q4-option.incorrect>.result-indicator::after,
+	.q5-option.incorrect>.result-indicator::after,
+	.q6-option.incorrect>.result-indicator::after {
+		/* Though Q6 won't use .incorrect styling for the chosen answer */
 		content: ' ✖';
 		color: red;
 	}
@@ -256,15 +257,18 @@
 	.q4-option.correct .checkmark,
 	.q5-option.correct .checkmark,
 	.q6-option.correct .checkmark {
-		background-color: #e8f5e9; /* Lighter green */
+		background-color: #e8f5e9;
+		/* Lighter green */
 	}
+
 	.q1-option.incorrect .checkmark,
 	.q2-option.incorrect .checkmark,
 	.q3-option.incorrect .checkmark,
 	.q4-option.incorrect .checkmark,
 	.q5-option.incorrect .checkmark,
 	.q6-option.incorrect .checkmark {
-		background-color: #ffebee; /* Lighter red */
+		background-color: #ffebee;
+		/* Lighter red */
 	}
 
 	.q1-option.correct .checkmark:after,
@@ -279,7 +283,8 @@
 	.q5-option.incorrect .checkmark:after,
 	.q6-option.correct .checkmark:after,
 	.q6-option.incorrect .checkmark:after {
-		display: none; /* Hide original checkmark indicator inside box after selection */
+		display: none;
+		/* Hide original checkmark indicator inside box after selection */
 	}
 
 	.q1-option input[type="checkbox"],
@@ -669,9 +674,7 @@
 												border-radius: 4px;
 												font-size: 15px;
 												color: white;
-												right: 10px;display: none;"
-												onclick="location.href='#slide-2';"
-												>Next ></div>
+												right: 10px;display: none;" onclick="location.href='#slide-2';">Next ></div>
 											</div>
 											<div id="slide-2">
 												<table style="margin: 6px;color: midnightblue;">
@@ -739,9 +742,7 @@
 												font-size: 15px;
 												color: white;
 												right: 10px;
-												display: none;"
-												onclick="location.href='#slide-3';"
-												>Next ></div>
+												display: none;" onclick="location.href='#slide-3';">Next ></div>
 											</div>
 											<div id="slide-3">
 												<table style="margin: 6px;color: midnightblue;">
@@ -813,9 +814,7 @@
 												font-size: 15px;
 												color: white;
 												right: 10px;
-												display: none;"
-												onclick="location.href='#slide-4';"
-												>Next ></div>
+												display: none;" onclick="location.href='#slide-4';">Next ></div>
 											</div>
 											<div id="slide-4">
 												<table style="margin: 6px;color: midnightblue;">
@@ -888,23 +887,24 @@
 												font-size: 15px;
 												color: white;
 												right: 10px;
-												display: none;"
-												onclick="location.href='#slide-5';"
-												>Next ></div>
+												display: none;" onclick="location.href='#slide-5';">Next ></div>
 											</div>
 											<div id="slide-5">
 												<table style="margin: 6px;color: midnightblue;">
 													<tr>
 														<td>
-															<img src="./assets/harris.jpg"
-																style="border-radius: 10px;">
+															<img src="./assets/harris.jpg" style="border-radius: 10px;">
 														</td>
 													</tr>
 													<tr>
 														<td>
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
-																What <span style="font-weight: 800;">logical fallacy</span> did Harris commit  uring 2024 US Presidential Debate against Trump, when she shifted the discussion away from asylum restrictions to a different bill and Trump’s rallies?
+																What <span style="font-weight: 800;">logical
+																	fallacy</span> did Harris commit uring 2024 US
+																Presidential Debate against Trump, when she shifted the
+																discussion away from asylum restrictions to a different
+																bill and Trump’s rallies?
 															</div>
 														</td>
 													</tr>
@@ -967,9 +967,7 @@
 												font-size: 15px;
 												color: white;
 												right: 10px;
-												display: none;"
-												onclick="location.href='#slide-6';"
-												>Next ></div>
+												display: none;" onclick="location.href='#slide-6';">Next ></div>
 											</div>
 											<div id="slide-6">
 												<table style="margin: 6px;color: midnightblue;">
@@ -984,35 +982,47 @@
 															<div
 																style="text-align: justify; font-size: 18px;color: midnightblue;">
 																Which <span style="font-weight: 800;">cognitive
-																	bias</span> has been used by Elon Musk in his post "You are the media now!"?
+																	bias</span> has been used by Elon Musk in his post
+																"You are the media now!"?
 															</div>
 														</td>
 													</tr>
 													<tr>
 														<td>
 															<div id="q6_options">
-																<label class="container q6-option" data-answer="Confirmation Bias">Confirmation Bias
-																	<input type="checkbox" name="q6_answer_cb" value="Confirmation Bias">
+																<label class="container q6-option"
+																	data-answer="Confirmation Bias">Confirmation Bias
+																	<input type="checkbox" name="q6_answer_cb"
+																		value="Confirmation Bias">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q6-option" data-answer="Bandwagon Effect">Bandwagon Effect
-																	<input type="checkbox" name="q6_answer_cb" value="Bandwagon Effect">
+																<label class="container q6-option"
+																	data-answer="Bandwagon Effect">Bandwagon Effect
+																	<input type="checkbox" name="q6_answer_cb"
+																		value="Bandwagon Effect">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q6-option" data-answer="False Consensus Effect">False Consensus Effect
-																	<input type="checkbox" name="q6_answer_cb" value="False Consensus Effect">
+																<label class="container q6-option"
+																	data-answer="False Consensus Effect">False Consensus
+																	Effect
+																	<input type="checkbox" name="q6_answer_cb"
+																		value="False Consensus Effect">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q6-option" data-answer="Ingroup Bias">Ingroup Bias
-																	<input type="checkbox" name="q6_answer_cb" value="Ingroup Bias">
+																<label class="container q6-option"
+																	data-answer="Ingroup Bias">Ingroup Bias
+																	<input type="checkbox" name="q6_answer_cb"
+																		value="Ingroup Bias">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
-																<label class="container q6-option" data-answer="All of them">All of them
-																	<input type="checkbox" name="q6_answer_cb" value="All of them">
+																<label class="container q6-option"
+																	data-answer="All of them">All of them
+																	<input type="checkbox" name="q6_answer_cb"
+																		value="All of them">
 																	<span class="checkmark"></span>
 																	<span class="result-indicator"></span>
 																</label>
@@ -1022,7 +1032,7 @@
 												</table>
 											</div>
 										</div>
-										
+
 										<a href="#slide-1" id="box1" style="margin-top: 20px;">&nbsp;</a>
 										<a href="#slide-2" id="box2">&nbsp;</a>
 										<a href="#slide-3" id="box3">&nbsp;</a>
@@ -1602,7 +1612,7 @@
 
 			q6Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
-				checkbox.addEventListener('click', function() {
+				checkbox.addEventListener('click', function () {
 					// Disable all checkboxes in this group once an answer is made
 					document.querySelectorAll('#q6_options input[type="checkbox"]').forEach(cb => {
 						cb.disabled = true;
@@ -1623,8 +1633,20 @@
 							}
 						});
 					}
+
 					
-					q6FeedbackDiv.style.display = 'block'; // Show feedback div for Q6
+
+					confetti({
+						particleCount: 150, // How many confetti particles to launch
+						spread: 90,         // How wide the confetti spreads (in degrees)
+						startVelocity: 60,  // Initial speed of the confetti
+						origin: {           // Where the confetti originates from on the page
+							x: 0.5,         // 0.5 is the center horizontally
+							y: 0.7          // 0.7 is 70% down the page (slightly above the button)
+						},
+						colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a'] // Custom colors
+					});
+
 				});
 			});
 
