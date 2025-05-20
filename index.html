@@ -661,6 +661,17 @@
 														</td>
 													</tr>
 												</table>
+												<div id="next-1" style="width: 70px;
+												height: 30px;
+												background-color: #3880FF;
+												position: absolute;
+												bottom: 23px;
+												border-radius: 4px;
+												font-size: 15px;
+												color: white;
+												right: 10px;display: none;"
+												onclick="location.href='#slide-2';"
+												>Next ></div>
 											</div>
 											<div id="slide-2">
 												<table style="margin: 6px;color: midnightblue;">
@@ -719,6 +730,18 @@
 														</td>
 													</tr>
 												</table>
+												<div id="next-2" style="width: 70px;
+												height: 30px;
+												background-color: #3880FF;
+												position: absolute;
+												bottom: 23px;
+												border-radius: 4px;
+												font-size: 15px;
+												color: white;
+												right: 10px;
+												display: none;"
+												onclick="location.href='#slide-3';"
+												>Next ></div>
 											</div>
 											<div id="slide-3">
 												<table style="margin: 6px;color: midnightblue;">
@@ -781,6 +804,18 @@
 														</td>
 													</tr>
 												</table>
+												<div id="next-3" style="width: 70px;
+												height: 30px;
+												background-color: #3880FF;
+												position: absolute;
+												bottom: 23px;
+												border-radius: 4px;
+												font-size: 15px;
+												color: white;
+												right: 10px;
+												display: none;"
+												onclick="location.href='#slide-4';"
+												>Next ></div>
 											</div>
 											<div id="slide-4">
 												<table style="margin: 6px;color: midnightblue;">
@@ -844,6 +879,18 @@
 														</td>
 													</tr>
 												</table>
+												<div id="next-4" style="width: 70px;
+												height: 30px;
+												background-color: #3880FF;
+												position: absolute;
+												bottom: 23px;
+												border-radius: 4px;
+												font-size: 15px;
+												color: white;
+												right: 10px;
+												display: none;"
+												onclick="location.href='#slide-5';"
+												>Next ></div>
 											</div>
 											<div id="slide-5">
 												<table style="margin: 6px;color: midnightblue;">
@@ -911,6 +958,18 @@
 														</td>
 													</tr>
 												</table>
+												<div id="next-5" style="width: 70px;
+												height: 30px;
+												background-color: #3880FF;
+												position: absolute;
+												bottom: 23px;
+												border-radius: 4px;
+												font-size: 15px;
+												color: white;
+												right: 10px;
+												display: none;"
+												onclick="location.href='#slide-6';"
+												>Next ></div>
 											</div>
 											<div id="slide-6">
 												<table style="margin: 6px;color: midnightblue;">
@@ -1362,6 +1421,7 @@
 	</div>
 
 	<script src="dist/js/main.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
 			// Quiz logic for Question 1 (slide-1)
@@ -1369,6 +1429,7 @@
 			const q1FeedbackDiv = document.getElementById('q1_feedback');
 			const q1CorrectAnswer = "Twister";
 			const box1 = document.getElementById('box1');
+			const next1 = document.getElementById('next-1');
 
 			q1Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1380,6 +1441,7 @@
 					});
 
 					const selectedAnswer = label.dataset.answer;
+					next1.style.display = 'block'; // Show next button for Q1
 
 					if (selectedAnswer === q1CorrectAnswer) {
 						label.classList.add('correct');
@@ -1402,6 +1464,8 @@
 			const q2FeedbackDiv = document.getElementById('q2_feedback');
 			const q2CorrectAnswer = "Pathos";
 			const box2 = document.getElementById('box2');
+			const next2 = document.getElementById('next-2');
+
 
 			q2Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1411,6 +1475,7 @@
 					});
 
 					const selectedAnswer = label.dataset.answer;
+					next2.style.display = 'block'; // Show next button for Q2
 
 					if (selectedAnswer === q2CorrectAnswer) {
 						label.classList.add('correct');
@@ -1433,6 +1498,7 @@
 			const q3FeedbackDiv = document.getElementById('q3_feedback');
 			const q3CorrectAnswer = "Opinions, Rumors";
 			const box3 = document.getElementById('box3');
+			const next3 = document.getElementById('next-3');
 
 			q3Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1442,6 +1508,7 @@
 					});
 
 					const selectedAnswer = label.dataset.answer;
+					next3.style.display = 'block'; // Show next button for Q3
 
 					if (selectedAnswer === q3CorrectAnswer) {
 						label.classList.add('correct');
@@ -1466,6 +1533,7 @@
 			const q4FeedbackDiv = document.getElementById('q4_feedback');
 			const q4CorrectAnswer = "Backing";
 			const box4 = document.getElementById('box4');
+			const next4 = document.getElementById('next-4');
 
 			q4Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1475,6 +1543,7 @@
 					});
 
 					const selectedAnswer = label.dataset.answer;
+					next4.style.display = 'block'; // Show next button for Q4
 
 					if (selectedAnswer === q4CorrectAnswer) {
 						label.classList.add('correct');
@@ -1497,6 +1566,7 @@
 			const q5FeedbackDiv = document.getElementById('q5_feedback');
 			const q5CorrectAnswer = "Red herring";
 			const box5 = document.getElementById('box5');
+			const next5 = document.getElementById('next-5');
 
 			q5Options.forEach(label => {
 				const checkbox = label.querySelector('input[type="checkbox"]');
@@ -1506,6 +1576,7 @@
 					});
 
 					const selectedAnswer = label.dataset.answer;
+					next5.style.display = 'block'; // Show next button for Q5
 
 					if (selectedAnswer === q5CorrectAnswer) {
 						label.classList.add('correct');
