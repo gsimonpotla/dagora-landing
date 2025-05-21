@@ -104,6 +104,7 @@
             padding-top: 10px;
         }
     </style>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcicKQeAAAAAIDb8iiFSqGMjrqo-kkRxlzS2gd1"></script>
 </head>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -147,7 +148,7 @@
                 appCheck = firebase.appCheck(app);
                 appCheck.activate(
                     new firebase.appCheck.ReCaptchaV3Provider(recaptchaV3SiteKey),
-                    false // activate even if token is not immediately available
+                    true // activate even if token is not immediately available
                 );
                 console.log("Firebase App Check Activated with reCAPTCHA v3");
 
