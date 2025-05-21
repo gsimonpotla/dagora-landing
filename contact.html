@@ -149,9 +149,9 @@
                 appCheck = firebase.appCheck(app);
                 appCheck.activate(
                     recaptchaV3SiteKey,
-                    true // activate even if token is not immediately available
+                    //true // activate even if token is not immediately available
                 );
-                console.log("Firebase App Check Activated with reCAPTCHA v3");
+                console.log("Firebase App Check Activated with reCAPTCHA v3...");
 
                 const contactForm = document.getElementById('contactForm');
                 const messageEl = document.getElementById('formMessage');
