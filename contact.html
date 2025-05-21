@@ -148,7 +148,7 @@
             try {
                 appCheck = firebase.appCheck(app);
                 appCheck.activate(
-                    new firebase.appCheck.ReCaptchaV3Provider(recaptchaV3SiteKey),
+                    recaptchaV3SiteKey,
                     true // activate even if token is not immediately available
                 );
                 console.log("Firebase App Check Activated with reCAPTCHA v3");
