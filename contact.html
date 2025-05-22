@@ -106,9 +106,9 @@
     </style>
 </head>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-functions-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-check-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-check-compat.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -148,8 +148,8 @@
             try {
                 appCheck = firebase.appCheck(app);
                 appCheck.activate(
-                    //recaptchaV3SiteKey,
-                    //true // activate even if token is not immediately available
+                    recaptchaV3SiteKey,
+                    true // activate even if token is not immediately available
                 );
                 console.log("Firebase App Check Activated with reCAPTCHA v3...");
 
