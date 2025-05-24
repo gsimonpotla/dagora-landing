@@ -43,10 +43,115 @@
 		width: 5px;
 		height: 5px;
 	}
-
 	.slides::-webkit-scrollbar-thumb {
 		background: black;
 		border-radius: 10px;
+	}	/* Mobile horizontal scrolling for problem section */	@media (max-width: 640px) {
+		#problem {
+			background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+			padding: 20px 0;
+			overflow: hidden; /* Ensure background extends properly */
+		}		#problem .features-wrap {
+			display: flex;
+			flex-wrap: nowrap !important;
+			overflow-x: auto;
+			justify-content: flex-start;
+			margin-right: 0;
+			margin-left: 0;
+			padding: 0 40px 0 5vw; /* Left padding here provides initial offset AND is part of scroll area */
+			scroll-snap-type: x mandatory;
+			-webkit-overflow-scrolling: touch;
+			
+			/* Hide scrollbar for cleaner look */
+			scrollbar-width: none; /* Firefox */
+		}
+		
+		#problem .features-wrap::-webkit-scrollbar {
+			display: none; /* Chrome, Safari, Edge */
+		}
+		
+		#problem .feature {
+			flex-shrink: 0;
+			width: calc(100vw - 120px) !important; /* Reduced width to show more peek */
+			max-width: 260px !important; /* Slightly smaller max-width */
+			margin-right: 25px; /* Increased margin to create better peek effect */
+			scroll-snap-align: start;
+			background: rgba(255, 255, 255, 0.08); /* Slightly more visible background */
+			border-radius: 12px;
+			border: 1px solid rgba(255, 255, 255, 0.15); /* More visible border */
+			backdrop-filter: blur(15px); /* Increased blur for better glass effect */
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+			padding: 20px !important;
+			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+		}
+		
+		#problem .feature:hover {
+			transform: translateY(-5px); /* Subtle lift on hover */
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+		}
+				#problem .feature:last-child {
+			margin-right: 60px; /* More space after last item for better scrolling */
+		}		#problem .feature:first-child {
+			margin-left: 0; /* Offset now handled by features-wrap padding-left */
+			padding-left: 25px !important; /* Keep internal padding for card content if desired */
+		}
+		
+		#problem .feature-inner {
+			background: transparent;
+		}
+		
+		#problem .feature-title {
+			color: #ffffff !important;
+			text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); /* Stronger text shadow */
+			font-weight: 600;
+		}
+		
+		#problem .feature p {
+			color: rgba(255, 255, 255, 0.95) !important;
+			text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+			line-height: 1.5;
+		}
+		
+		/* Peek indicator styling */
+		#problem .features-wrap::after {
+			content: '';
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			width: 80px;
+			background: linear-gradient(to left, rgba(26, 26, 46, 0.8) 0%, transparent 100%);
+			pointer-events: none;
+			z-index: 10;
+		}
+		
+		/* Override ScrollReveal.js styles for horizontal scrolling on mobile */
+		#problem .feature.is-revealing {
+			opacity: 1 !important;
+			transform: none !important;
+		}
+				/* Override any inline styles applied by ScrollReveal */
+		#problem .feature {
+			opacity: 1 !important;
+			transform: none !important;			transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+		}		/* Adjust container padding for problem section on mobile for initial offset */
+		#problem .container {
+			padding-left: 0 !important; /* Ensure container does not indent the scroll area */
+			padding-right: 0 !important; 
+		}
+
+		#problem .features-wrap {
+			display: flex;
+			flex-wrap: nowrap !important;
+			overflow-x: auto;
+			justify-content: flex-start;
+			margin-right: 0;
+			margin-left: 0;
+			padding: 0 40px 0 5vw; /* Left padding here provides initial offset AND is part of scroll area */
+			scroll-snap-type: x mandatory;
+			-webkit-overflow-scrolling: touch;
+		}
+		
 	}
 
 	.slides::-webkit-scrollbar-track {
@@ -446,7 +551,7 @@
 				</div>
 			</section>
 
-			<section class="features section">
+			<section class="features section" id="problem">
 				<div class="container">
 					<div class="features-inner section-inner has-bottom-divider">
 						<h2 class="section-title mt-0" style="margin-bottom: 24px;text-align: center;">In 2025, can't we
