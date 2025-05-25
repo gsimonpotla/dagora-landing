@@ -49,18 +49,20 @@
 	}	/* Mobile horizontal scrolling for problem section */	@media (max-width: 640px) {
 		#problem {
 			background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-
 			overflow: hidden; /* Ensure background extends properly */
-		}		#problem .features-wrap {
+		}
+		
+		#problem .features-wrap {
 			display: flex;
 			flex-wrap: nowrap !important;
 			overflow-x: auto;
 			justify-content: flex-start;
 			margin-right: 0;
 			margin-left: 0;
-			padding: 0 40px 0 5vw; /* Left padding here provides initial offset AND is part of scroll area */
+			padding: 0 15vw 0 15vw; /* Centered padding to allow peek effect on both sides */
 			scroll-snap-type: x mandatory;
 			-webkit-overflow-scrolling: touch;
+			scroll-behavior: smooth;
 			
 			/* Hide scrollbar for cleaner look */
 			scrollbar-width: none; /* Firefox */
@@ -72,28 +74,30 @@
 		
 		#problem .feature {
 			flex-shrink: 0;
-			width: calc(100vw - 120px) !important; /* Reduced width to show more peek */
-			max-width: 260px !important; /* Slightly smaller max-width */
-			margin-right: 25px; /* Increased margin to create better peek effect */
-			scroll-snap-align: start;
-			background: rgba(255, 255, 255, 0.08); /* Slightly more visible background */
+			width: 70vw !important; /* Main card takes 70% of viewport width */
+			max-width: 280px !important;
+			margin-right: 20px; /* Space between cards for peek effect */
+			scroll-snap-align: center; /* Center the card in view */
+			background: rgba(255, 255, 255, 0.08);
 			border-radius: 12px;
-			border: 1px solid rgba(255, 255, 255, 0.15); /* More visible border */
-			backdrop-filter: blur(15px); /* Increased blur for better glass effect */
-			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			backdrop-filter: blur(15px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 			padding: 20px !important;
-			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
 		}
 		
 		#problem .feature:hover {
-			transform: translateY(-5px); /* Subtle lift on hover */
+			transform: translateY(-5px);
 			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
 		}
-				#problem .feature:last-child {
-			margin-right: 60px; /* More space after last item for better scrolling */
-		}		#problem .feature:first-child {
-			margin-left: 0; /* Offset now handled by features-wrap padding-left */
-			padding-left: 25px !important; /* Keep internal padding for card content if desired */
+		
+		#problem .feature:last-child {
+			margin-right: 0; /* No margin after last item */
+		}
+		
+		#problem .feature:first-child {
+			margin-left: 0;
 		}
 		
 		#problem .feature-inner {
@@ -111,8 +115,7 @@
 			text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 			line-height: 1.5;
 		}
-		
-		/* Peek indicator styling */
+				/* Peek indicator styling */
 		#problem .features-wrap::after {
 			content: '';
 			position: absolute;
@@ -124,8 +127,41 @@
 			pointer-events: none;
 			z-index: 10;
 		}
-		
-		/* Override ScrollReveal.js styles for horizontal scrolling on mobile */
+		/* Tablet horizontal scrolling for problem section */
+		@media (min-width: 641px) and (max-width: 1024px) {
+			#problem .features-wrap {
+				display: flex;
+				flex-wrap: nowrap !important;
+				overflow-x: auto;
+				justify-content: flex-start;
+				margin-right: 0;
+				margin-left: 0;
+				padding: 0 10vw 0 10vw; /* Centered padding for tablet */
+				scroll-snap-type: x mandatory;
+				-webkit-overflow-scrolling: touch;
+				scroll-behavior: smooth;
+				scrollbar-width: none;
+			}
+			
+			#problem .features-wrap::-webkit-scrollbar {
+				display: none;
+			}
+			
+			#problem .feature {
+				flex-shrink: 0;
+				width: 80vw !important; /* Slightly larger for tablet */
+				max-width: 350px !important;
+				margin-right: 30px;
+				scroll-snap-align: center;
+				background: rgba(255, 255, 255, 0.08);
+				border-radius: 12px;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				backdrop-filter: blur(15px);
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+				padding: 20px !important;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+			}
+		}
 		#problem .feature.is-revealing {
 			opacity: 1 !important;
 			transform: none !important;
@@ -139,7 +175,6 @@
 			padding-left: 0 !important; /* Ensure container does not indent the scroll area */
 			padding-right: 0 !important; 
 		}
-
 		#problem .features-wrap {
 			display: flex;
 			flex-wrap: nowrap !important;
@@ -147,9 +182,40 @@
 			justify-content: flex-start;
 			margin-right: 0;
 			margin-left: 0;
-			padding: 0 40px 0 5vw; /* Left padding here provides initial offset AND is part of scroll area */
+			padding: 0 15vw 0 15vw; /* Centered padding to show peek on both sides */
 			scroll-snap-type: x mandatory;
 			-webkit-overflow-scrolling: touch;
+			scroll-behavior: smooth;
+			/* Hide scrollbar for cleaner look */
+			scrollbar-width: none; /* Firefox */
+		}
+		
+		#problem .features-wrap::-webkit-scrollbar {
+			display: none; /* Chrome, Safari, Edge */
+		}
+		
+		#problem .feature {
+			flex-shrink: 0;
+			width: 70vw !important; /* Main card takes 70% of viewport width */
+			max-width: 280px !important;
+			margin-right: 20px; /* Space between cards for peek effect */
+			scroll-snap-align: center; /* Center the card in view */
+			background: rgba(255, 255, 255, 0.08);
+			border-radius: 12px;
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			backdrop-filter: blur(15px);
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+			padding: 20px !important;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+		
+		#problem .feature:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+		}
+		
+		#problem .feature:last-child {
+			margin-right: 0; /* No margin after last item */
 		}
 		
 	}
@@ -404,11 +470,53 @@
 		height: 0;
 		width: 0;
 	}
-
 	.current-slide-nav-active {
 		box-shadow: 0px -4px #3880ff;
 	}
 </style>
+
+<script>
+// Enhanced horizontal scrolling for features section
+document.addEventListener('DOMContentLoaded', function() {
+	const problemSection = document.getElementById('problem');
+	if (problemSection) {
+		const featuresWrap = problemSection.querySelector('.features-wrap');
+		const features = problemSection.querySelectorAll('.feature');
+		
+		if (featuresWrap && features.length > 0) {
+			// Add smooth scrolling behavior
+			featuresWrap.style.scrollBehavior = 'smooth';
+			
+			// Optional: Add scroll indicators or enhance UX
+			let isScrolling = false;
+			
+			featuresWrap.addEventListener('scroll', function() {
+				if (!isScrolling) {
+					window.requestAnimationFrame(function() {
+						// Add any scroll-based animations here if needed
+						isScrolling = false;
+					});
+					isScrolling = true;
+				}
+			});
+			
+			// Ensure proper initial positioning
+			if (window.innerWidth <= 640) {
+				// For mobile, ensure first card is properly centered
+				const firstFeature = features[0];
+				if (firstFeature) {
+					setTimeout(() => {
+						const containerWidth = featuresWrap.clientWidth;
+						const featureWidth = firstFeature.offsetWidth;
+						const initialScroll = (featureWidth + 20) * 0.15; // Slight offset for peek
+						featuresWrap.scrollLeft = initialScroll;
+					}, 100);
+				}
+			}
+		}
+	}
+});
+</script>
 
 <body class="is-boxed has-animations">
 	<div class="body-wrap boxed-container">
@@ -554,7 +662,7 @@
 			<section class="features section" id="problem">
 				<div class="container" style="margin-bottom: 0;">
 					<div class="features-inner section-inner has-bottom-divider">
-						<h2 class="section-title mt-0" style="margin-bottom: 24px;text-align: center;">In 2025, can't we
+						<h2 class="mt-0" style="margin-bottom: 24px;text-align: center;margin-left: 16px !important; margin-right: 16px;">In 2025, can't we
 							do better?</h2>
 						<div class="features-wrap">
 							<div class="feature is-revealing">
@@ -660,7 +768,7 @@
 			<section class="features section">
 				<div class="container">
 					<div class="features-inner section-inner has-bottom-divider" style="padding-bottom: 12px;">
-						<h2 class="section-title mt-0" style="margin-bottom: 12px;text-align: center;">A disruptive
+						<h2 class="section-title mt-0" style="margin-bottom: 12px;text-align: center;" id="problem-features">A disruptive
 							approach: Followership
 						</h2>
 						<p class="section-paragraph mb-0">Dagora is not just another social network. It is a
