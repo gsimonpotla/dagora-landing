@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.dagora.app",
+    "sha256_cert_fingerprints": ["F4:3A:AC:CB:7E:A1:CC:2F:7B:F8:4F:0A:93:C7:5B:92:1F:6A:4F:EC:DC:96:70:1E:D7:E0:74:48:35:CB:A7:00"]
+  }
+}]
