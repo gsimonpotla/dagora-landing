@@ -25,17 +25,23 @@
 
     function openApp() {
       if (isAndroid) {
+		console.log("isAndroid")
         // Chrome intent with fallback directly to Play Store if app is missing
         const intent = 'intent://invite' + (token ? ('?token=' + encodeURIComponent(token)) : '') +
           '#Intent;scheme=dagora;package=com.dagora.app;S.browser_fallback_url=' +
           encodeURIComponent(playStore) + ';end';
+		  
+		console.log(intent)
         location.href = intent;
       } else if (isIOS) {
         // Try custom scheme, then App Store after a short delay
+		  console.log("iOS")
         const start = Date.now();
         location.href = appScheme;
         setTimeout(() => { if (Date.now() - start < 1500) toStore(); }, 1200);
       } else {
+		  
+		console.log("toStore")
         // Desktop or unknown → show store choice; default to Play Store
         toStore();
       }
